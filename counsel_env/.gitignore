@@ -1,0 +1,6 @@
+__pycache__/
+*.py[cod]
+.pytest_cache/
+pytest-cache-files-*/
+counsel_env.egg-info/
+rollout_debug.jsonl

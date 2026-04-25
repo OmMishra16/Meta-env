@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="840" height="460" viewBox="0 0 840 460">
+<rect width="100%" height="100%" fill="white"/>
+<text x="420.0" y="32" text-anchor="middle" font-family="Arial" font-size="20">Held-out evaluation reward by baseline</text>
+<line x1="80" y1="370" x2="810" y2="370" stroke="#333"/>
+<line x1="80" y1="60" x2="80" y2="370" stroke="#333"/>
+<rect x="80.0" y="347.4" width="162.0" height="22.6" fill="#777777"/>
+<text x="161.0" y="339.4" text-anchor="middle" font-family="Arial" font-size="13">0.073</text>
+<text x="161.0" y="406" text-anchor="middle" font-family="Arial" font-size="12">keyword_spam</text>
+<rect x="266.0" y="370.0" width="162.0" height="0.0" fill="#ba5a31"/>
+<text x="347.0" y="362.0" text-anchor="middle" font-family="Arial" font-size="13">0.000</text>
+<text x="347.0" y="406" text-anchor="middle" font-family="Arial" font-size="12">present_all</text>
+<rect x="452.0" y="370.0" width="162.0" height="0.0" fill="#4c78a8"/>
+<text x="533.0" y="362.0" text-anchor="middle" font-family="Arial" font-size="13">0.000</text>
+<text x="533.0" y="406" text-anchor="middle" font-family="Arial" font-size="12">random</text>
+<rect x="638.0" y="90.3" width="162.0" height="279.7" fill="#2f855a"/>
+<text x="719.0" y="82.3" text-anchor="middle" font-family="Arial" font-size="13">0.902</text>
+<text x="719.0" y="406" text-anchor="middle" font-family="Arial" font-size="12">scripted_oracle</text>
+<text x="22" y="215.0" transform="rotate(-90 22,215.0)" font-family="Arial" font-size="13">average reward</text>
+</svg>

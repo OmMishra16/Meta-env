@@ -1,0 +1,5 @@
+agent,episodes,avg_reward,avg_primary_reward,avg_trigger_rate,avg_surface_rate,avg_evidence_timing,avg_useless_ratio
+keyword_spam,30,0.07300000000000001,0.0,0.6777777777777778,0.0,0,0.48000000000000004
+present_all,30,0.0,0.0,0.0,0.0,0,0.0
+random,30,0.0,0.0,0.0,0.0,0,1.0
+scripted_oracle,30,0.9023333333333334,0.95,0.95,0.95,1.9,0.0

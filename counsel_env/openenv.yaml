@@ -1,0 +1,10 @@
+name: counsel-env
+description: Cross-examination arena — train LLMs to surface contradictions in witness testimony.
+tags:
+  - rl
+  - multi-agent
+  - theory-of-mind
+  - dialogue
+  - hackathon
+license: bsd-3-clause
+

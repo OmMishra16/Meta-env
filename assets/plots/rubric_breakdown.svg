@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="880" height="500" viewBox="0 0 880 500">
+<rect width="100%" height="100%" fill="white"/>
+<text x="440.0" y="32" text-anchor="middle" font-family="Arial" font-size="20">Reward-hacking audit metrics</text>
+<line x1="80" y1="400" x2="850" y2="400" stroke="#333"/>
+<line x1="80" y1="60" x2="80" y2="400" stroke="#333"/>
+<line x1="80" y1="400.0" x2="850" y2="400.0" stroke="#ddd"/>
+<text x="70" y="404.0" text-anchor="end" font-family="Arial" font-size="11">0.00</text>
+<line x1="80" y1="315.0" x2="850" y2="315.0" stroke="#ddd"/>
+<text x="70" y="319.0" text-anchor="end" font-family="Arial" font-size="11">0.25</text>
+<line x1="80" y1="230.0" x2="850" y2="230.0" stroke="#ddd"/>
+<text x="70" y="234.0" text-anchor="end" font-family="Arial" font-size="11">0.50</text>
+<line x1="80" y1="145.0" x2="850" y2="145.0" stroke="#ddd"/>
+<text x="70" y="149.0" text-anchor="end" font-family="Arial" font-size="11">0.75</text>
+<line x1="80" y1="60.0" x2="850" y2="60.0" stroke="#ddd"/>
+<text x="70" y="64.0" text-anchor="end" font-family="Arial" font-size="11">1.00</text>
+<polyline points="80.0,400.0 330.0,400.0 580.0,400.0 830.0,77.0" fill="none" stroke="#2f855a" stroke-width="3"/>
+<circle cx="80.0" cy="400.0" r="4" fill="#2f855a"/>
+<circle cx="330.0" cy="400.0" r="4" fill="#2f855a"/>
+<circle cx="580.0" cy="400.0" r="4" fill="#2f855a"/>
+<circle cx="830.0" cy="77.0" r="4" fill="#2f855a"/>
+<rect x="700" y="50" width="12" height="12" fill="#2f855a"/>
+<text x="718" y="60" font-family="Arial" font-size="13">primary</text>
+<polyline points="80.0,169.6 330.0,400.0 580.0,400.0 830.0,77.0" fill="none" stroke="#4c78a8" stroke-width="3"/>
+<circle cx="80.0" cy="169.6" r="4" fill="#4c78a8"/>
+<circle cx="330.0" cy="400.0" r="4" fill="#4c78a8"/>
+<circle cx="580.0" cy="400.0" r="4" fill="#4c78a8"/>
+<circle cx="830.0" cy="77.0" r="4" fill="#4c78a8"/>
+<rect x="700" y="72" width="12" height="12" fill="#4c78a8"/>
+<text x="718" y="82" font-family="Arial" font-size="13">trigger</text>
+<polyline points="80.0,400.0 330.0,400.0 580.0,400.0 830.0,77.0" fill="none" stroke="#805ad5" stroke-width="3"/>
+<circle cx="80.0" cy="400.0" r="4" fill="#805ad5"/>
+<circle cx="330.0" cy="400.0" r="4" fill="#805ad5"/>
+<circle cx="580.0" cy="400.0" r="4" fill="#805ad5"/>
+<circle cx="830.0" cy="77.0" r="4" fill="#805ad5"/>
+<rect x="700" y="94" width="12" height="12" fill="#805ad5"/>
+<text x="718" y="104" font-family="Arial" font-size="13">surface</text>
+<polyline points="80.0,236.8 330.0,400.0 580.0,60.0 830.0,400.0" fill="none" stroke="#ba5a31" stroke-width="3"/>
+<circle cx="80.0" cy="236.8" r="4" fill="#ba5a31"/>
+<circle cx="330.0" cy="400.0" r="4" fill="#ba5a31"/>
+<circle cx="580.0" cy="60.0" r="4" fill="#ba5a31"/>
+<circle cx="830.0" cy="400.0" r="4" fill="#ba5a31"/>
+<rect x="700" y="116" width="12" height="12" fill="#ba5a31"/>
+<text x="718" y="126" font-family="Arial" font-size="13">useless</text>
+<text x="80.0" y="438" text-anchor="middle" font-family="Arial" font-size="12">keyword_spam</text>
+<text x="330.0" y="438" text-anchor="middle" font-family="Arial" font-size="12">present_all</text>
+<text x="580.0" y="438" text-anchor="middle" font-family="Arial" font-size="12">random</text>
+<text x="830.0" y="438" text-anchor="middle" font-family="Arial" font-size="12">scripted_oracle</text>
+</svg>
