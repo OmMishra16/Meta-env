@@ -13,7 +13,7 @@
 - Space runtime: `RUNNING` on `cpu-basic`
 - Checkpoint visibility: public
 - Checkpoint SHA: `4002e75edfd36e8fc7453dce4f8fe84eff628a76`
-- Space SHA: `8fb858c9f441779893e0d4383b362cfd8820bd66`
+- Space runtime SHA: `47e723a533007ad4253aef03d0de2eb7bf6264b3`
 
 ## Held-Out Results
 

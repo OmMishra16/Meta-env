@@ -14,6 +14,9 @@ tags:
   - theory-of-mind
   - adversarial-dialogue
   - procgen
+models:
+  - heavycoderhh/counsel-env-qwen3-8b-qlora-sft-run4b
+  - Qwen/Qwen3-8B
 ---
 
 # Cross-Examination Arena
