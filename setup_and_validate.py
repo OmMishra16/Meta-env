@@ -49,8 +49,8 @@ def main() -> int:
     section("SUBMISSION ARTIFACTS")
     print(
         "Published Space: https://huggingface.co/spaces/heavycoderhh/counsel-env\n"
-        "Published checkpoint: https://huggingface.co/heavycoderhh/counsel-env-qwen3-0.6b-grpo-run2\n"
-        "Mirrored trained eval artifacts: assets/trained_eval/"
+        "Published checkpoint: https://huggingface.co/heavycoderhh/counsel-env-qwen3-0.6b-grpo-run3\n"
+        "Mirrored trained eval artifacts: assets/trained_eval_run3/"
     )
 
     section("SUMMARY")
@@ -58,7 +58,7 @@ def main() -> int:
         print(f"[FAIL] {failures} local validation check(s) failed.")
         return 1
     print("[OK] Local environment, tests, and rollout diagnostics are green.")
-    print("[OK] Run-2 SFT+GRPO checkpoint and held-out eval artifacts are ready for judges.")
+    print("[OK] Run-3 SFT+GRPO checkpoint and held-out eval artifacts are ready for judges.")
     return 0
 
 

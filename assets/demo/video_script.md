@@ -32,4 +32,4 @@ The agent presents timestamped surveillance footage. The claim collapses. Contra
 
 This is theory-of-mind under a budget: tracking what another agent has committed to, choosing the right evidence, and recovering from partial information.
 
-After an oracle SFT warm start plus 250 GRPO steps, the run-2 checkpoint surfaces contradictions on held-out cases. It is not oracle-level, but it learns the core sequence: trigger first, evidence second.
+After assistant-only SFT plus 500 GRPO steps, the run-3 checkpoint surfaces contradictions on held-out cases. It is not oracle-level, but it learns the core sequence much more reliably: trigger first, evidence second.

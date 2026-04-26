@@ -19,10 +19,10 @@ We built a local reward-hacking audit with four baselines:
 | random | 0.000 | vague questions and accidental exhibits |
 | keyword_spam | 0.073 | trigger words without proof |
 | present_all | 0.000 | blind evidence dumping |
-| trained_sft_grpo_run2 | 0.387 | learned question-then-evidence timing |
+| trained_sft_grpo_run3 | 0.615 | stronger question-then-evidence timing |
 | scripted_oracle | 0.902 | upper-bound trigger-then-evidence strategy |
 
-This gives the environment a clear training target. The run-2 checkpoint uses 320 oracle SFT demonstrations followed by 250 GRPO steps. On 30 held-out seeded cases it reaches 0.387 average reward and 0.461 primary/surface rate: clearly above random, keyword spam, and blind evidence dumping, while still leaving room below the oracle ceiling.
+This gives the environment a clear training target. The run-3 checkpoint starts from run 2, adds 720 assistant-only oracle SFT next-action rows, then runs 500 GRPO steps. On 30 held-out seeded cases it reaches 0.615 average reward and 0.689 primary/surface rate: clearly above random, keyword spam, blind evidence dumping, and the earlier run-2 checkpoint, while still leaving room below the oracle ceiling.
 
 The environment supports replayable seeds, held-out evaluation, transcript export, and per-component reward logging. That means we can compare the same case before and after training, inspect whether the model learned evidence timing, and catch cases where it only learned shallow trigger patterns.
 
@@ -33,5 +33,5 @@ The core idea is simple: if we want LLMs that reason about other agents, we shou
 Artifacts:
 
 - Space: `https://huggingface.co/spaces/heavycoderhh/counsel-env`
-- Checkpoint: `https://huggingface.co/heavycoderhh/counsel-env-qwen3-0.6b-grpo-run2`
-- Local trained eval mirror: `assets/trained_eval/`
+- Checkpoint: `https://huggingface.co/heavycoderhh/counsel-env-qwen3-0.6b-grpo-run3`
+- Local trained eval mirror: `assets/trained_eval_run3/`

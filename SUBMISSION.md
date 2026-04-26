@@ -4,8 +4,8 @@
 
 - Space: https://huggingface.co/spaces/heavycoderhh/counsel-env
 - Live demo: https://heavycoderhh-counsel-env.hf.space/demo
-- Trained checkpoint: https://huggingface.co/heavycoderhh/counsel-env-qwen3-0.6b-grpo-run2
-- Trained eval artifacts: https://huggingface.co/heavycoderhh/counsel-env-qwen3-0.6b-grpo-run2/tree/main/eval
+- Trained checkpoint: https://huggingface.co/heavycoderhh/counsel-env-qwen3-0.6b-grpo-run3
+- Trained eval artifacts: https://huggingface.co/heavycoderhh/counsel-env-qwen3-0.6b-grpo-run3/tree/main/eval
 
 ## Verification Snapshot
 
@@ -22,7 +22,7 @@
 | random | 30 | 0.000 | 0.000 | 0.000 | 0.000 |
 | keyword_spam | 30 | 0.073 | 0.000 | 0.678 | 0.000 |
 | present_all | 30 | 0.000 | 0.000 | 0.000 | 0.000 |
-| trained_sft_grpo_run2 | 30 | 0.387 | 0.461 | 0.589 | 0.461 |
+| trained_sft_grpo_run3 | 30 | 0.615 | 0.689 | 0.728 | 0.689 |
 | scripted_oracle | 30 | 0.902 | 0.950 | 0.950 | 0.950 |
 
 ## Local Proof Artifacts
@@ -31,6 +31,10 @@
 - `assets/trained_eval/trained_eval_rows.csv`
 - `assets/trained_eval/trained_eval_rows.jsonl`
 - `assets/trained_eval/trained_eval_transcripts.md`
+- `assets/trained_eval_run3/trained_eval_summary.json`
+- `assets/trained_eval_run3/trained_eval_rows.csv`
+- `assets/trained_eval_run3/trained_eval_rows.jsonl`
+- `assets/trained_eval_run3/trained_eval_transcripts.md`
 - `assets/heldout_eval_summary.json`
 - `assets/transcripts/before_after_pairs.md`
 - `assets/demo/video_script.md`

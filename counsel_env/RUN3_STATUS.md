@@ -8,18 +8,31 @@ Cancelled flavor: a100-large
 Failed job ID: 69ed8005d2c8bd8662bcef9a
 Failed flavor: l40sx1
 Failed reason: `generation_batch_size (4) must be divisible by num_generations (6)`
-Active job ID: pending relaunch
+Active job ID: 69ed848ed70108f37acdf694
+Active URL: https://huggingface.co/jobs/heavycoderhh/69ed848ed70108f37acdf694
 Active flavor: l40sx1
-Latest status: patched locally
-Relaunched: pending
+Latest status: COMPLETED
+Relaunched: 2026-04-26 03:22 UTC
 Target repo: heavycoderhh/counsel-env-qwen3-0.6b-grpo-run3
+Evaluation job ID: 69ed95fed70108f37acdf871
+Evaluation status: COMPLETED
+```
+
+Run-3 held-out result:
+
+```text
+avg_reward=0.615
+primary_reward=0.689
+trigger_rate=0.728
+surface_rate=0.689
+avg_useless_ratio=0.550
 ```
 
 Expected next checks:
 
 ```bash
-hf jobs inspect <active-run3-job-id>
-hf jobs logs <active-run3-job-id>
+hf jobs inspect 69ed848ed70108f37acdf694
+hf jobs logs 69ed848ed70108f37acdf694
 ```
 
 After the job succeeds, evaluate and upload run-3 artifacts:

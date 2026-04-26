@@ -115,7 +115,7 @@ Latest 30-seed held-out results:
 | random | 0.000 | 0.000 | 0.000 | 0.000 |
 | keyword_spam | 0.073 | 0.000 | 0.678 | 0.000 |
 | present_all | 0.000 | 0.000 | 0.000 | 0.000 |
-| trained_sft_grpo_run2 | 0.387 | 0.461 | 0.589 | 0.461 |
+| trained_sft_grpo_run3 | 0.615 | 0.689 | 0.728 | 0.689 |
 | scripted_oracle | 0.902 | 0.950 | 0.950 | 0.950 |
 
 This shows the obvious hacks fail: keyword spam can trigger claims but cannot score primary reward, and blind evidence presentation scores zero.
@@ -130,6 +130,10 @@ assets/trained_eval/trained_eval_rows.csv
 assets/trained_eval/trained_eval_rows.jsonl
 assets/trained_eval/trained_eval_summary.json
 assets/trained_eval/trained_eval_transcripts.md
+assets/trained_eval_run3/trained_eval_rows.csv
+assets/trained_eval_run3/trained_eval_rows.jsonl
+assets/trained_eval_run3/trained_eval_summary.json
+assets/trained_eval_run3/trained_eval_transcripts.md
 assets/plots/baseline_vs_oracle.svg
 assets/plots/rubric_breakdown.svg
 ```
@@ -163,8 +167,8 @@ The project now demonstrates the full loop judges care about:
 
 ```text
 Space: https://huggingface.co/spaces/heavycoderhh/counsel-env
-Checkpoint: https://huggingface.co/heavycoderhh/counsel-env-qwen3-0.6b-grpo-run2
-Checkpoint eval: https://huggingface.co/heavycoderhh/counsel-env-qwen3-0.6b-grpo-run2/tree/main/eval
+Checkpoint: https://huggingface.co/heavycoderhh/counsel-env-qwen3-0.6b-grpo-run3
+Checkpoint eval: https://huggingface.co/heavycoderhh/counsel-env-qwen3-0.6b-grpo-run3/tree/main/eval
 ```
 
 ## HF Credit Note

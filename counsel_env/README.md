@@ -122,12 +122,12 @@ The local evaluator compares four baselines:
 | random | 0.000 | 0.000 | 0.000 | 0.000 |
 | keyword_spam | 0.073 | 0.000 | 0.678 | 0.000 |
 | present_all | 0.000 | 0.000 | 0.000 | 0.000 |
-| trained_sft_grpo_run2 | 0.387 | 0.461 | 0.589 | 0.461 |
+| trained_sft_grpo_run3 | 0.615 | 0.689 | 0.728 | 0.689 |
 | scripted_oracle | 0.902 | 0.950 | 0.950 | 0.950 |
 
 This shows the obvious hacks do not get primary reward: keyword spam can trigger claims, and present-all can burn exhibits, but neither surfaces contradictions.
 
-The trained run-2 checkpoint (`heavycoderhh/counsel-env-qwen3-0.6b-grpo-run2`) uses oracle SFT warm-start plus GRPO refinement. It surfaces contradictions on held-out cases, while the first 200-step GRPO-only checkpoint learned mostly to ask a trigger question without presenting evidence.
+The trained run-3 checkpoint (`heavycoderhh/counsel-env-qwen3-0.6b-grpo-run3`) uses the run-2 checkpoint as a base, assistant-only oracle SFT, and GRPO refinement with stronger duplicate-loop penalties. It surfaces contradictions on held-out cases more reliably than run 2, while the first 200-step GRPO-only checkpoint learned mostly to ask a trigger question without presenting evidence.
 
 The same benchmark table is embedded in the live demo so judges can see the failure modes without cloning the repo.
 
@@ -230,13 +230,13 @@ The current Space deployment does not start a paid GPU job. Before running remot
 Published training artifact:
 
 ```text
-https://huggingface.co/heavycoderhh/counsel-env-qwen3-0.6b-grpo-run2
+https://huggingface.co/heavycoderhh/counsel-env-qwen3-0.6b-grpo-run3
 ```
 
 Held-out evaluation artifacts are in:
 
 ```text
-https://huggingface.co/heavycoderhh/counsel-env-qwen3-0.6b-grpo-run2/tree/main/eval
+https://huggingface.co/heavycoderhh/counsel-env-qwen3-0.6b-grpo-run3/tree/main/eval
 ```
 
 The same trained eval files are mirrored locally for offline review:
@@ -246,6 +246,10 @@ assets/trained_eval/trained_eval_rows.csv
 assets/trained_eval/trained_eval_rows.jsonl
 assets/trained_eval/trained_eval_summary.json
 assets/trained_eval/trained_eval_transcripts.md
+assets/trained_eval_run3/trained_eval_rows.csv
+assets/trained_eval_run3/trained_eval_rows.jsonl
+assets/trained_eval_run3/trained_eval_summary.json
+assets/trained_eval_run3/trained_eval_transcripts.md
 ```
 
 ## Run Server Locally

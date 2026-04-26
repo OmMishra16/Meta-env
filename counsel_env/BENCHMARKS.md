@@ -7,10 +7,10 @@ Held-out evaluation uses 30 deterministic seeds and four fixed policies. The goa
 | random | 30 | 0.000 | 0.000 | 0.000 | 0.000 | Vague questions and early evidence do not score. |
 | keyword_spam | 30 | 0.073 | 0.000 | 0.678 | 0.000 | Trigger words alone cannot earn primary reward. |
 | present_all | 30 | 0.000 | 0.000 | 0.000 | 0.000 | Blind evidence dumping fails because timing matters. |
-| trained_sft_grpo_run2 | 30 | 0.387 | 0.461 | 0.589 | 0.461 | SFT warm-start + GRPO learns the core question-then-evidence loop on held-out cases. |
+| trained_sft_grpo_run3 | 30 | 0.615 | 0.689 | 0.728 | 0.689 | Assistant-only SFT + GRPO improves evidence timing and reduces duplicate loops. |
 | scripted_oracle | 30 | 0.902 | 0.950 | 0.950 | 0.950 | The desired strategy is trigger first, evidence second. |
 
-The trained checkpoint is published at `heavycoderhh/counsel-env-qwen3-0.6b-grpo-run2`. Evaluation artifacts are in the model repo under `eval/`.
+The trained checkpoint is published at `heavycoderhh/counsel-env-qwen3-0.6b-grpo-run3`. Evaluation artifacts are in the model repo under `eval/`.
 
 ## Anti-Hacking Checks
 
@@ -27,4 +27,3 @@ From the repository root:
 python scripts/run_local_eval.py --episodes 30 --output-dir assets
 python -m pytest -p no:cacheprovider -q
 ```
-

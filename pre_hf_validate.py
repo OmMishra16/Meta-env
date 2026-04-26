@@ -145,6 +145,9 @@ def check_evaluation_artifacts() -> None:
     trained_summary_path = ROOT / "assets" / "trained_eval" / "trained_eval_summary.json"
     trained_rows_path = ROOT / "assets" / "trained_eval" / "trained_eval_rows.csv"
     trained_transcripts_path = ROOT / "assets" / "trained_eval" / "trained_eval_transcripts.md"
+    run3_summary_path = ROOT / "assets" / "trained_eval_run3" / "trained_eval_summary.json"
+    run3_rows_path = ROOT / "assets" / "trained_eval_run3" / "trained_eval_rows.csv"
+    run3_transcripts_path = ROOT / "assets" / "trained_eval_run3" / "trained_eval_transcripts.md"
     transcripts_path = ROOT / "assets" / "transcripts" / "before_after_pairs.md"
     plot_paths = [
         ROOT / "assets" / "plots" / "baseline_vs_oracle.svg",
@@ -154,6 +157,9 @@ def check_evaluation_artifacts() -> None:
     assert trained_summary_path.exists(), "missing trained_eval_summary.json"
     assert trained_rows_path.exists(), "missing trained_eval_rows.csv"
     assert trained_transcripts_path.exists(), "missing trained_eval_transcripts.md"
+    assert run3_summary_path.exists(), "missing run3 trained_eval_summary.json"
+    assert run3_rows_path.exists(), "missing run3 trained_eval_rows.csv"
+    assert run3_transcripts_path.exists(), "missing run3 trained_eval_transcripts.md"
     assert transcripts_path.exists(), "missing before_after_pairs.md"
     for path in plot_paths:
         assert path.exists(), f"missing plot: {path}"
@@ -166,8 +172,13 @@ def check_evaluation_artifacts() -> None:
     trained_by_agent = {row["agent"]: row for row in trained_summaries}
     assert trained_by_agent["trained_sft_grpo_run2"]["avg_reward"] > by_agent["keyword_spam"]["avg_reward"]
     assert trained_by_agent["trained_sft_grpo_run2"]["avg_primary_reward"] > 0.0
+    run3_summaries = json.loads(run3_summary_path.read_text(encoding="utf-8"))
+    run3_by_agent = {row["agent"]: row for row in run3_summaries}
+    assert run3_by_agent["trained_sft_grpo_run3"]["avg_reward"] > trained_by_agent["trained_sft_grpo_run2"]["avg_reward"]
+    assert run3_by_agent["trained_sft_grpo_run3"]["avg_primary_reward"] > trained_by_agent["trained_sft_grpo_run2"]["avg_primary_reward"]
     assert "Triggered:" in transcripts_path.read_text(encoding="utf-8")
     assert "Agent: trained_sft_grpo_run2" in trained_transcripts_path.read_text(encoding="utf-8")
+    assert "Agent: trained_sft_grpo_run3" in run3_transcripts_path.read_text(encoding="utf-8")
     print("[OK] held-out evaluation artifacts and reward-hacking audit")
 
 

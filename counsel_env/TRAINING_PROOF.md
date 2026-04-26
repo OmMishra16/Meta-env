@@ -8,9 +8,9 @@ The deployed Space does not start paid training. Use this page to run the smalle
 - Training notebook: `notebooks/train_counsel.ipynb`.
 - Default safety: `RUN_TRAINING=0`, `push_to_hub=False`, `report_to="none"`.
 - Paid remote training has completed only after explicit approval.
-- Best checkpoint: `heavycoderhh/counsel-env-qwen3-0.6b-grpo-run2`.
-- Run-2 recipe: 320 oracle SFT demonstrations, then 250 GRPO steps with evidence-focused reward shaping.
-- Held-out result: average reward `0.387`, primary reward `0.461`, surface rate `0.461` across 30 deterministic seeds.
+- Best checkpoint: `heavycoderhh/counsel-env-qwen3-0.6b-grpo-run3`.
+- Run-3 recipe: run-2 base checkpoint, 720 assistant-only oracle SFT next-action rows, then 500 GRPO steps with stronger evidence and duplicate-loop shaping.
+- Held-out result: average reward `0.615`, primary reward `0.689`, surface rate `0.689` across 30 deterministic seeds.
 
 ## Lowest-Cost Dry Run
 
@@ -31,11 +31,11 @@ Expected purpose:
 
 ## Submission Standard Run
 
-Run 2 completes the submission-standard path:
+Run 3 completes the submission-standard path:
 
 1. Trained on generated curriculum cases.
 2. Evaluated on the same 30-seed harness used in `BENCHMARKS.md`.
 3. Published trained eval rows, summary, and transcripts under the checkpoint repo's `eval/` folder.
 4. Mirrored the trained eval artifacts locally under `assets/trained_eval/`.
 
-Run 2 satisfies this path for a submission demo: it is not oracle-level, but it demonstrates learned evidence timing rather than keyword triggering alone.
+Run 3 satisfies this path for a submission demo: it is not oracle-level, but it substantially improves learned evidence timing over run 2 while staying below the scripted oracle ceiling.
