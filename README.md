@@ -25,8 +25,7 @@ We built it around a simple courtroom failure mode: a witness says something tha
 |-- BLOG.md                   # short human-readable project blog
 |-- LICENSE                   # BSD-3-Clause license
 |-- counsel_env/              # runnable OpenEnv package and HF Space source
-|-- assets/                   # plots, eval mirrors, transcripts, demo material
-|-- docs/                     # submission card and engineering report
+|-- assets/                   # plots, eval mirrors, demo material
 |-- scripts/                  # validation, eval, and plotting utilities
 `-- pytest.ini                # local test config
 ```
@@ -168,7 +167,13 @@ Chart files:
 
 ## Training Scripts
 
-Credit-safe notebook:
+Run4b training notebook (mirrors the script that produced the official checkpoint):
+
+```text
+counsel_env/notebooks/train_counsel_run4b.ipynb
+```
+
+Credit-safe GRPO demo notebook:
 
 ```text
 counsel_env/notebooks/train_counsel.ipynb
@@ -203,12 +208,8 @@ The notebook and scripts are credit-safe by default and do not start paid GPU tr
 
 Submission evidence:
 
-- [docs/SUBMISSION.md](docs/SUBMISSION.md)
-- [docs/TRAINING_IMPROVEMENTS_REPORT.md](docs/TRAINING_IMPROVEMENTS_REPORT.md)
-- [counsel_env/BENCHMARKS.md](counsel_env/BENCHMARKS.md)
-- [counsel_env/TRAINING_PROOF.md](counsel_env/TRAINING_PROOF.md)
-- [counsel_env/EVAL150_STATUS.md](counsel_env/EVAL150_STATUS.md)
 - [BLOG.md](BLOG.md)
+- [counsel_env/BENCHMARKS.md](counsel_env/BENCHMARKS.md)
 - [assets/demo/video_script.md](assets/demo/video_script.md)
 
 Local trained eval mirrors:
