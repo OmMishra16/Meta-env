@@ -1,5 +1,7 @@
 # Run-3 Training Plan
 
+Historical note: run 3 completed and was later superseded by run-4b, a Qwen3-8B QLoRA SFT run that reached `0.860` average reward and `0.928` primary/surface rate on the same held-out seeds.
+
 Run 2 proves the environment works: the model beats reward-hacking baselines and surfaces contradictions on held-out cases. Run 3 targets the visible failure modes in the trained transcripts:
 
 - copying the case brief into `ask_question`

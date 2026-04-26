@@ -1,0 +1,25 @@
+{
+  "artifact_repo": "heavycoderhh/counsel-env-qwen3-8b-qlora-sft-run4b",
+  "base_model": "Qwen/Qwen3-8B",
+  "gradient_accumulation_steps": 4,
+  "include_rest_rows": false,
+  "lora_alpha": 32,
+  "lora_dropout": 0.05,
+  "lora_r": 16,
+  "max_sft_length": 1536,
+  "metrics": {
+    "epoch": 0.6027397260273972,
+    "total_flos": 3.105680873988096e+16,
+    "train_loss": 0.05649940988699779,
+    "train_runtime": 1287.6923,
+    "train_samples_per_second": 0.683,
+    "train_steps_per_second": 0.171
+  },
+  "recipe": "qwen3_8b_qlora_oracle_sft",
+  "sft_case_count": 480,
+  "sft_epochs": 1.0,
+  "sft_learning_rate": 0.0001,
+  "sft_max_steps": 220,
+  "sft_row_count": 1460,
+  "space_repo": "heavycoderhh/counsel-env"
+}

@@ -6,6 +6,7 @@
 #   "numpy>=2.0.0",
 #   "openenv-core>=0.2.1",
 #   "pandas>=2.0.0",
+#   "peft>=0.18.0",
 #   "torch>=2.8.0",
 #   "transformers>=5.2.0",
 # ]
@@ -27,6 +28,7 @@ from typing import Any, Dict, List, Optional
 import pandas as pd
 import torch
 from huggingface_hub import HfApi, snapshot_download
+from peft import PeftConfig, PeftModel
 from transformers import AutoModelForCausalLM, AutoTokenizer
 
 
@@ -198,13 +200,23 @@ def execute_tool(env: CounselEnvironment, name: Optional[str], args: Dict[str, A
 
 def evaluate_model(repo_id: str, episodes: int, label: str) -> tuple[List[dict], List[str]]:
     dtype = torch.bfloat16 if torch.cuda.is_available() else torch.float32
-    tokenizer = AutoTokenizer.from_pretrained(repo_id, trust_remote_code=True)
+    try:
+        peft_config = PeftConfig.from_pretrained(repo_id)
+    except Exception:
+        peft_config = None
+    load_repo = peft_config.base_model_name_or_path if peft_config is not None else repo_id
+    tokenizer_repo = repo_id if peft_config is not None else load_repo
+    tokenizer = AutoTokenizer.from_pretrained(tokenizer_repo, trust_remote_code=True)
+    if tokenizer.pad_token is None:
+        tokenizer.pad_token = tokenizer.eos_token
     model = AutoModelForCausalLM.from_pretrained(
-        repo_id,
+        load_repo,
         torch_dtype=dtype,
         device_map="auto",
         trust_remote_code=True,
     )
+    if peft_config is not None:
+        model = PeftModel.from_pretrained(model, repo_id)
     model.eval()
 
     rows: List[dict] = []

@@ -46,13 +46,13 @@ BENCHMARK_ROWS = [
         "takeaway": "Blindly dumping exhibits fails because timing matters.",
     },
     {
-        "agent": "trained_sft_grpo_run3",
+        "agent": "trained_qwen3_8b_qlora_sft_run4b",
         "episodes": 30,
-        "avg_reward": 0.615,
-        "primary_reward": 0.689,
-        "trigger_rate": 0.728,
-        "surface_rate": 0.689,
-        "takeaway": "Assistant-only SFT plus GRPO improves evidence timing and reduces loops.",
+        "avg_reward": 0.860,
+        "primary_reward": 0.928,
+        "trigger_rate": 0.928,
+        "surface_rate": 0.928,
+        "takeaway": "Qwen3-8B QLoRA SFT learns the trigger-then-evidence loop reliably.",
     },
     {
         "agent": "scripted_oracle",
@@ -265,7 +265,7 @@ def _demo_html() -> str:
 <body>
   <header>
     <h1>Counsel-Env Live Demo</h1>
-    <p>Make the witness commit, then present the exhibit that exposes the contradiction. This is the target behavior for GRPO training.</p>
+    <p>Make the witness commit, then present the exhibit that exposes the contradiction. This is the target behavior for post-training.</p>
   </header>
   <main>
     <div class="stack">

@@ -122,12 +122,12 @@ The local evaluator compares four baselines:
 | random | 0.000 | 0.000 | 0.000 | 0.000 |
 | keyword_spam | 0.073 | 0.000 | 0.678 | 0.000 |
 | present_all | 0.000 | 0.000 | 0.000 | 0.000 |
-| trained_sft_grpo_run3 | 0.615 | 0.689 | 0.728 | 0.689 |
+| trained_qwen3_8b_qlora_sft_run4b | 0.860 | 0.928 | 0.928 | 0.928 |
 | scripted_oracle | 0.902 | 0.950 | 0.950 | 0.950 |
 
 This shows the obvious hacks do not get primary reward: keyword spam can trigger claims, and present-all can burn exhibits, but neither surfaces contradictions.
 
-The trained run-3 checkpoint (`heavycoderhh/counsel-env-qwen3-0.6b-grpo-run3`) uses the run-2 checkpoint as a base, assistant-only oracle SFT, and GRPO refinement with stronger duplicate-loop penalties. It surfaces contradictions on held-out cases more reliably than run 2, while the first 200-step GRPO-only checkpoint learned mostly to ask a trigger question without presenting evidence.
+The trained run4b checkpoint (`heavycoderhh/counsel-env-qwen3-8b-qlora-sft-run4b`) uses `Qwen/Qwen3-8B` with 4-bit QLoRA SFT and assistant-only oracle next-action labels. It surfaces contradictions on held-out cases much more reliably than run 3, while staying below the scripted oracle ceiling.
 
 The same benchmark table is embedded in the live demo so judges can see the failure modes without cloning the repo.
 
@@ -165,7 +165,7 @@ python -m pytest -p no:cacheprovider -q
 Latest local result:
 
 ```text
-20 passed
+21 passed
 ```
 
 The preflight also checks local FastAPI + WebSocket reset/step/state, Docker-style imports, notebook credit guards, rollout diagnostics, and held-out evaluation artifacts.
@@ -222,6 +222,22 @@ Tiny approved dry-run mode:
 RUN_TRAINING=1 COUNSEL_MODEL=Qwen/Qwen3-0.6B COUNSEL_MAX_STEPS=5 COUNSEL_DATASET_SIZE=12
 ```
 
+Fast 8B QLoRA SFT path used for the current best checkpoint:
+
+```bash
+COUNSEL_MODEL=Qwen/Qwen3-8B \
+COUNSEL_ARTIFACT_REPO=heavycoderhh/counsel-env-qwen3-8b-qlora-sft-run4b \
+COUNSEL_SFT_DATASET_SIZE=480 \
+COUNSEL_SFT_MAX_STEPS=220 \
+COUNSEL_MAX_SFT_LENGTH=1536 \
+COUNSEL_SFT_LEARNING_RATE=1e-4 \
+COUNSEL_LORA_R=16 \
+COUNSEL_LORA_ALPHA=32 \
+COUNSEL_GRAD_ACCUM=4 \
+COUNSEL_INCLUDE_REST_ROWS=0 \
+python counsel_env/scripts/run_qlora_sft_training_job.py
+```
+
 The current Space deployment does not start a paid GPU job. Before running remote training, approve the spend. Estimated costs:
 
 - A10G dry run: about `$0.50`
@@ -230,13 +246,13 @@ The current Space deployment does not start a paid GPU job. Before running remot
 Published training artifact:
 
 ```text
-https://huggingface.co/heavycoderhh/counsel-env-qwen3-0.6b-grpo-run3
+https://huggingface.co/heavycoderhh/counsel-env-qwen3-8b-qlora-sft-run4b
 ```
 
 Held-out evaluation artifacts are in:
 
 ```text
-https://huggingface.co/heavycoderhh/counsel-env-qwen3-0.6b-grpo-run3/tree/main/eval
+https://huggingface.co/heavycoderhh/counsel-env-qwen3-8b-qlora-sft-run4b/tree/main/eval
 ```
 
 The same trained eval files are mirrored locally for offline review:
@@ -250,6 +266,11 @@ assets/trained_eval_run3/trained_eval_rows.csv
 assets/trained_eval_run3/trained_eval_rows.jsonl
 assets/trained_eval_run3/trained_eval_summary.json
 assets/trained_eval_run3/trained_eval_transcripts.md
+assets/trained_eval_run4b_8b_sft/eval/trained_eval_rows.csv
+assets/trained_eval_run4b_8b_sft/eval/trained_eval_rows.jsonl
+assets/trained_eval_run4b_8b_sft/eval/trained_eval_summary.json
+assets/trained_eval_run4b_8b_sft/eval/trained_eval_transcripts.md
+assets/trained_eval_run4b_8b_sft/training_summary.json
 ```
 
 ## Run Server Locally
@@ -281,4 +302,4 @@ Future work: self-play witness training, civil deposition templates, jurisdictio
 
 ## Status
 
-The Hugging Face Space is deployed on free `cpu-basic` hardware with the live demo and OpenEnv API. Local validation passes. A trained SFT+GRPO checkpoint and held-out evaluation are published on Hugging Face, and the final video/blog scripts are prepared under `assets/demo/`.
+The Hugging Face Space is deployed on free `cpu-basic` hardware with the live demo and OpenEnv API. Local validation passes. A trained Qwen3-8B QLoRA SFT checkpoint and held-out evaluation are published on Hugging Face, and the final video/blog scripts are prepared under `assets/demo/`.

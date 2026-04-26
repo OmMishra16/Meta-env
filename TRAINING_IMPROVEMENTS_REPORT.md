@@ -2,7 +2,7 @@
 
 ## Status
 
-Counsel-Env is locally validated, deployed as a public Hugging Face Space, and backed by a published SFT+GRPO run-2 checkpoint. The trained eval artifacts are mirrored locally under `assets/trained_eval/` and published in the model repo under `eval/`.
+Counsel-Env is locally validated, deployed as a public Hugging Face Space, and backed by a published Qwen3-8B QLoRA SFT run-4b checkpoint. The trained eval artifacts are mirrored locally under `assets/trained_eval_run4b_8b_sft/eval/` and published in the model repo under `eval/`.
 
 Latest local preflight:
 
@@ -115,7 +115,7 @@ Latest 30-seed held-out results:
 | random | 0.000 | 0.000 | 0.000 | 0.000 |
 | keyword_spam | 0.073 | 0.000 | 0.678 | 0.000 |
 | present_all | 0.000 | 0.000 | 0.000 | 0.000 |
-| trained_sft_grpo_run3 | 0.615 | 0.689 | 0.728 | 0.689 |
+| trained_qwen3_8b_qlora_sft_run4b | 0.860 | 0.928 | 0.928 | 0.928 |
 | scripted_oracle | 0.902 | 0.950 | 0.950 | 0.950 |
 
 This shows the obvious hacks fail: keyword spam can trigger claims but cannot score primary reward, and blind evidence presentation scores zero.
@@ -134,6 +134,11 @@ assets/trained_eval_run3/trained_eval_rows.csv
 assets/trained_eval_run3/trained_eval_rows.jsonl
 assets/trained_eval_run3/trained_eval_summary.json
 assets/trained_eval_run3/trained_eval_transcripts.md
+assets/trained_eval_run4b_8b_sft/eval/trained_eval_rows.csv
+assets/trained_eval_run4b_8b_sft/eval/trained_eval_rows.jsonl
+assets/trained_eval_run4b_8b_sft/eval/trained_eval_summary.json
+assets/trained_eval_run4b_8b_sft/eval/trained_eval_transcripts.md
+assets/trained_eval_run4b_8b_sft/training_summary.json
 assets/plots/baseline_vs_oracle.svg
 assets/plots/rubric_breakdown.svg
 ```
@@ -161,19 +166,19 @@ The project now demonstrates the full loop judges care about:
 - The transcript artifacts explain agent behavior.
 - The evaluation set gives measurable trained-vs-baseline structure.
 - The local preflight catches Docker/Space import issues before HF.
-- The trained run-2 checkpoint shows nonzero held-out contradiction surfacing above reward-hacking baselines.
+- The trained run-4b checkpoint shows strong held-out contradiction surfacing above reward-hacking baselines.
 
 ## Published Artifacts
 
 ```text
 Space: https://huggingface.co/spaces/heavycoderhh/counsel-env
-Checkpoint: https://huggingface.co/heavycoderhh/counsel-env-qwen3-0.6b-grpo-run3
-Checkpoint eval: https://huggingface.co/heavycoderhh/counsel-env-qwen3-0.6b-grpo-run3/tree/main/eval
+Checkpoint: https://huggingface.co/heavycoderhh/counsel-env-qwen3-8b-qlora-sft-run4b
+Checkpoint eval: https://huggingface.co/heavycoderhh/counsel-env-qwen3-8b-qlora-sft-run4b/tree/main/eval
 ```
 
 ## HF Credit Note
 
-The local validation commands do not start paid jobs. The run-2 checkpoint was produced after approved remote training. Future retraining should still be approved before use; rough reference costs:
+The local validation commands do not start paid jobs. The run-4b checkpoint was produced after approved remote training. Future retraining should still be approved before use; rough reference costs:
 
 - A10G dry run: about `$0.50`
 - full A100 GRPO run, roughly 90 minutes: `$6-$10`

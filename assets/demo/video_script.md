@@ -32,4 +32,4 @@ The agent presents timestamped surveillance footage. The claim collapses. Contra
 
 This is theory-of-mind under a budget: tracking what another agent has committed to, choosing the right evidence, and recovering from partial information.
 
-After assistant-only SFT plus 500 GRPO steps, the run-3 checkpoint surfaces contradictions on held-out cases. It is not oracle-level, but it learns the core sequence much more reliably: trigger first, evidence second.
+After fast Qwen3-8B QLoRA SFT, the run4b checkpoint surfaces contradictions on held-out cases at a 0.928 primary/surface rate, close to the scripted oracle ceiling. It learns the core sequence: trigger first, evidence second.

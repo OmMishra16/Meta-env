@@ -1,5 +1,7 @@
 # Run-3 Status
 
+Run-3 is complete and has been superseded by run-4b (`heavycoderhh/counsel-env-qwen3-8b-qlora-sft-run4b`). Keep this file as historical proof for the SFT+GRPO attempt.
+
 Run-3 was launched as a Hugging Face Job after explicit approval. The first A100 job remained in `SCHEDULING` with no logs, so it was cancelled and relaunched on L40S. The first L40S attempt completed SFT, then failed before GRPO because `num_generations=6` was incompatible with TRL's default `generation_batch_size=4`; run-3 was patched to use `num_generations=4`.
 
 ```text
@@ -28,14 +30,7 @@ surface_rate=0.689
 avg_useless_ratio=0.550
 ```
 
-Expected next checks:
-
-```bash
-hf jobs inspect 69ed848ed70108f37acdf694
-hf jobs logs 69ed848ed70108f37acdf694
-```
-
-After the job succeeds, evaluate and upload run-3 artifacts:
+Run-3 evaluation command:
 
 ```bash
 COUNSEL_EVAL_MODEL=heavycoderhh/counsel-env-qwen3-0.6b-grpo-run3 \

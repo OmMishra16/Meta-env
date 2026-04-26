@@ -18,7 +18,7 @@ Open `/demo`. Reset an easy case, ask the hinted trigger question, then present 
 
 ## 75-90s: Why It Matters
 
-This is a compact theory-of-mind task for RL: the agent must reason over another actor's commitments under a budget. The published run-3 checkpoint is not oracle-level, but it beats the reward-hacking baselines by learning the trigger-then-evidence loop on held-out cases.
+This is a compact theory-of-mind task: the agent must reason over another actor's commitments under a budget. The published Qwen3-8B QLoRA SFT checkpoint is close to the scripted oracle ceiling and beats the reward-hacking baselines by learning the trigger-then-evidence loop on held-out cases.
 
 ## Shot List
 
