@@ -17,12 +17,12 @@ We built a local reward-hacking audit with four baselines:
 | Agent | Avg Reward | What It Tests |
 | --- | ---: | --- |
 | random | 0.000 | vague questions and accidental exhibits |
-| keyword_spam | 0.073 | trigger words without proof |
+| keyword_spam | 0.066 | trigger words without proof |
 | present_all | 0.000 | blind evidence dumping |
-| trained_qwen3_8b_qlora_sft_run4b | 0.860 | reliable question-then-evidence timing |
+| trained_qwen3_8b_qlora_sft_run4b_eval150 | 0.864 | reliable question-then-evidence timing |
 | scripted_oracle | 0.902 | upper-bound trigger-then-evidence strategy |
 
-This gives the environment a clear training target. The best checkpoint is a fast Qwen3-8B QLoRA SFT run trained on assistant-only oracle next-action rows. On 30 held-out seeded cases it reaches 0.860 average reward and 0.928 primary/surface rate: clearly above random, keyword spam, blind evidence dumping, and the earlier run-3 SFT+GRPO checkpoint, while still leaving a small gap below the oracle ceiling.
+This gives the environment a clear training target. The best checkpoint is a fast Qwen3-8B QLoRA SFT run trained on assistant-only oracle next-action rows. On the expanded 150-seed evaluation it reaches 0.864 average reward and 0.943 primary/surface rate: clearly above random, keyword spam, blind evidence dumping, and the earlier run-3 SFT+GRPO checkpoint, while still leaving a small gap below the oracle ceiling.
 
 The environment supports replayable seeds, held-out evaluation, transcript export, and per-component reward logging. That means we can compare the same case before and after training, inspect whether the model learned evidence timing, and catch cases where it only learned shallow trigger patterns.
 
@@ -35,3 +35,4 @@ Artifacts:
 - Space: `https://huggingface.co/spaces/heavycoderhh/counsel-env`
 - Checkpoint: `https://huggingface.co/heavycoderhh/counsel-env-qwen3-8b-qlora-sft-run4b`
 - Local trained eval mirror: `assets/trained_eval_run4b_8b_sft/eval/`
+- Expanded trained eval mirror: `assets/trained_eval_run4b_8b_sft_eval150/eval_150/`

@@ -2,7 +2,7 @@
 
 ## Status
 
-Counsel-Env is locally validated, deployed as a public Hugging Face Space, and backed by a published Qwen3-8B QLoRA SFT run-4b checkpoint. The trained eval artifacts are mirrored locally under `assets/trained_eval_run4b_8b_sft/eval/` and published in the model repo under `eval/`.
+Counsel-Env is locally validated, deployed as a public Hugging Face Space, and backed by a published Qwen3-8B QLoRA SFT run-4b checkpoint. The trained eval artifacts are mirrored locally under `assets/trained_eval_run4b_8b_sft/eval/` and `assets/trained_eval_run4b_8b_sft_eval150/eval_150/`, and published in the model repo under `eval/` and `eval_150/`.
 
 Latest local preflight:
 
@@ -108,15 +108,15 @@ This gives exploration signal while keeping contradiction surfacing dominant.
 - `present_all`
 - `scripted_oracle`
 
-Latest 30-seed held-out results:
+Latest expanded 150-seed held-out results:
 
 | Agent | Avg Reward | Primary Reward | Trigger Rate | Surface Rate |
 | --- | ---: | ---: | ---: | ---: |
 | random | 0.000 | 0.000 | 0.000 | 0.000 |
-| keyword_spam | 0.073 | 0.000 | 0.678 | 0.000 |
+| keyword_spam | 0.066 | 0.000 | 0.650 | 0.000 |
 | present_all | 0.000 | 0.000 | 0.000 | 0.000 |
-| trained_qwen3_8b_qlora_sft_run4b | 0.860 | 0.928 | 0.928 | 0.928 |
-| scripted_oracle | 0.902 | 0.950 | 0.950 | 0.950 |
+| trained_qwen3_8b_qlora_sft_run4b_eval150 | 0.864 | 0.943 | 0.943 | 0.943 |
+| scripted_oracle | 0.901 | 0.957 | 0.957 | 0.957 |
 
 This shows the obvious hacks fail: keyword spam can trigger claims but cannot score primary reward, and blind evidence presentation scores zero.
 
@@ -139,6 +139,11 @@ assets/trained_eval_run4b_8b_sft/eval/trained_eval_rows.jsonl
 assets/trained_eval_run4b_8b_sft/eval/trained_eval_summary.json
 assets/trained_eval_run4b_8b_sft/eval/trained_eval_transcripts.md
 assets/trained_eval_run4b_8b_sft/training_summary.json
+assets/trained_eval_run4b_8b_sft_eval150/eval_150/trained_eval_rows.csv
+assets/trained_eval_run4b_8b_sft_eval150/eval_150/trained_eval_rows.jsonl
+assets/trained_eval_run4b_8b_sft_eval150/eval_150/trained_eval_summary.json
+assets/trained_eval_run4b_8b_sft_eval150/eval_150/trained_eval_expanded_summary.json
+assets/trained_eval_run4b_8b_sft_eval150/eval_150/trained_eval_transcripts.md
 assets/plots/baseline_vs_oracle.svg
 assets/plots/rubric_breakdown.svg
 ```
@@ -174,6 +179,7 @@ The project now demonstrates the full loop judges care about:
 Space: https://huggingface.co/spaces/heavycoderhh/counsel-env
 Checkpoint: https://huggingface.co/heavycoderhh/counsel-env-qwen3-8b-qlora-sft-run4b
 Checkpoint eval: https://huggingface.co/heavycoderhh/counsel-env-qwen3-8b-qlora-sft-run4b/tree/main/eval
+Expanded checkpoint eval: https://huggingface.co/heavycoderhh/counsel-env-qwen3-8b-qlora-sft-run4b/tree/main/eval_150
 ```
 
 ## HF Credit Note

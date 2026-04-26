@@ -50,7 +50,8 @@ def main() -> int:
     print(
         "Published Space: https://huggingface.co/spaces/heavycoderhh/counsel-env\n"
         "Published checkpoint: https://huggingface.co/heavycoderhh/counsel-env-qwen3-8b-qlora-sft-run4b\n"
-        "Mirrored trained eval artifacts: assets/trained_eval_run4b_8b_sft/eval/"
+        "Mirrored trained eval artifacts: assets/trained_eval_run4b_8b_sft/eval/ and "
+        "assets/trained_eval_run4b_8b_sft_eval150/eval_150/"
     )
 
     section("SUMMARY")

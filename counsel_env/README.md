@@ -118,19 +118,21 @@ Diagnostics log primary, auxiliary, and total reward separately.
 
 ## Reward-Hacking Audit
 
-The local evaluator compares four baselines:
+The expanded evaluator compares four baselines plus the trained checkpoint across 150 deterministic seeds:
 
 | Agent | Avg Reward | Primary Reward | Trigger Rate | Surface Rate |
 | --- | ---: | ---: | ---: | ---: |
 | random | 0.000 | 0.000 | 0.000 | 0.000 |
-| keyword_spam | 0.073 | 0.000 | 0.678 | 0.000 |
+| keyword_spam | 0.066 | 0.000 | 0.650 | 0.000 |
 | present_all | 0.000 | 0.000 | 0.000 | 0.000 |
-| trained_qwen3_8b_qlora_sft_run4b | 0.860 | 0.928 | 0.928 | 0.928 |
-| scripted_oracle | 0.902 | 0.950 | 0.950 | 0.950 |
+| trained_qwen3_8b_qlora_sft_run4b_eval150 | 0.864 | 0.943 | 0.943 | 0.943 |
+| scripted_oracle | 0.901 | 0.957 | 0.957 | 0.957 |
 
 This shows the obvious hacks do not get primary reward: keyword spam can trigger claims, and present-all can burn exhibits, but neither surfaces contradictions.
 
 The trained run4b checkpoint (`heavycoderhh/counsel-env-qwen3-8b-qlora-sft-run4b`) uses `Qwen/Qwen3-8B` with 4-bit QLoRA SFT and assistant-only oracle next-action labels. It surfaces contradictions on held-out cases much more reliably than run 3, while staying below the scripted oracle ceiling.
+
+The 150-seed expansion also breaks the trained score down by difficulty: easy primary/surface `1.000`, medium `0.903`, hard `0.939`, with `0` invalid tool calls. That diagnosis does not justify spending credits on run4c yet; medium is the weakest slice, but still comfortably above the submission target.
 
 The same benchmark table is embedded in the live demo so judges can see the failure modes without cloning the repo.
 
@@ -256,6 +258,7 @@ Held-out evaluation artifacts are in:
 
 ```text
 https://huggingface.co/heavycoderhh/counsel-env-qwen3-8b-qlora-sft-run4b/tree/main/eval
+https://huggingface.co/heavycoderhh/counsel-env-qwen3-8b-qlora-sft-run4b/tree/main/eval_150
 ```
 
 The same trained eval files are mirrored locally for offline review:
@@ -274,6 +277,11 @@ assets/trained_eval_run4b_8b_sft/eval/trained_eval_rows.jsonl
 assets/trained_eval_run4b_8b_sft/eval/trained_eval_summary.json
 assets/trained_eval_run4b_8b_sft/eval/trained_eval_transcripts.md
 assets/trained_eval_run4b_8b_sft/training_summary.json
+assets/trained_eval_run4b_8b_sft_eval150/eval_150/trained_eval_rows.csv
+assets/trained_eval_run4b_8b_sft_eval150/eval_150/trained_eval_rows.jsonl
+assets/trained_eval_run4b_8b_sft_eval150/eval_150/trained_eval_summary.json
+assets/trained_eval_run4b_8b_sft_eval150/eval_150/trained_eval_expanded_summary.json
+assets/trained_eval_run4b_8b_sft_eval150/eval_150/trained_eval_transcripts.md
 ```
 
 ## Run Server Locally

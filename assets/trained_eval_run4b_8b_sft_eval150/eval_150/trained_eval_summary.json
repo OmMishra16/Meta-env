@@ -1,0 +1,52 @@
+[
+  {
+    "agent": "keyword_spam",
+    "avg_evidence_timing": 0,
+    "avg_primary_reward": 0.0,
+    "avg_reward": 0.06606666666666668,
+    "avg_surface_rate": 0.0,
+    "avg_trigger_rate": 0.65,
+    "avg_useless_ratio": 0.5146666666666667,
+    "episodes": 150
+  },
+  {
+    "agent": "present_all",
+    "avg_evidence_timing": 0,
+    "avg_primary_reward": 0.0,
+    "avg_reward": 0.0,
+    "avg_surface_rate": 0.0,
+    "avg_trigger_rate": 0.0,
+    "avg_useless_ratio": 0.0,
+    "episodes": 150
+  },
+  {
+    "agent": "random",
+    "avg_evidence_timing": 0,
+    "avg_primary_reward": 0.0,
+    "avg_reward": 0.0,
+    "avg_surface_rate": 0.0,
+    "avg_trigger_rate": 0.0,
+    "avg_useless_ratio": 1.0,
+    "episodes": 150
+  },
+  {
+    "agent": "scripted_oracle",
+    "avg_evidence_timing": 1.8,
+    "avg_primary_reward": 0.9566666666666667,
+    "avg_reward": 0.9014000000000001,
+    "avg_surface_rate": 0.9566666666666667,
+    "avg_trigger_rate": 0.9566666666666667,
+    "avg_useless_ratio": 0.0,
+    "episodes": 150
+  },
+  {
+    "agent": "trained_qwen3_8b_qlora_sft_run4b_eval150",
+    "avg_evidence_timing": 1.76,
+    "avg_primary_reward": 0.9433333333333334,
+    "avg_reward": 0.8643333333333334,
+    "avg_surface_rate": 0.9433333333333334,
+    "avg_trigger_rate": 0.9433333333333334,
+    "avg_useless_ratio": 0.24055555555555555,
+    "episodes": 150
+  }
+]
