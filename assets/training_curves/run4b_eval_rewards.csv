@@ -1,0 +1,7 @@
+agent,episodes,avg_reward,primary_reward,surface_rate
+random,150,0.000,0.000,0.000
+keyword_spam,150,0.066,0.000,0.000
+present_all,150,0.000,0.000,0.000
+run3_previous,30,0.615,0.689,0.689
+run4b_trained,150,0.864,0.943,0.943
+scripted_oracle,150,0.901,0.957,0.957

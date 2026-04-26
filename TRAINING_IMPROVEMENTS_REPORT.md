@@ -144,6 +144,8 @@ assets/trained_eval_run4b_8b_sft_eval150/eval_150/trained_eval_rows.jsonl
 assets/trained_eval_run4b_8b_sft_eval150/eval_150/trained_eval_summary.json
 assets/trained_eval_run4b_8b_sft_eval150/eval_150/trained_eval_expanded_summary.json
 assets/trained_eval_run4b_8b_sft_eval150/eval_150/trained_eval_transcripts.md
+assets/training_curves/run4b_training_loss.png
+assets/training_curves/run4b_eval_rewards.png
 assets/plots/baseline_vs_oracle.svg
 assets/plots/rubric_breakdown.svg
 ```

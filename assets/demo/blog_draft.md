@@ -34,5 +34,7 @@ Artifacts:
 
 - Space: `https://huggingface.co/spaces/heavycoderhh/counsel-env`
 - Checkpoint: `https://huggingface.co/heavycoderhh/counsel-env-qwen3-8b-qlora-sft-run4b`
+- Training loss plot: `assets/training_curves/run4b_training_loss.png`
+- Held-out reward plot: `assets/training_curves/run4b_eval_rewards.png`
 - Local trained eval mirror: `assets/trained_eval_run4b_8b_sft/eval/`
 - Expanded trained eval mirror: `assets/trained_eval_run4b_8b_sft_eval150/eval_150/`

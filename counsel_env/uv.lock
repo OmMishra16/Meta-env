@@ -443,7 +443,7 @@ dev = [
 [package.metadata]
 requires-dist = [
     { name = "fastapi" },
-    { name = "openenv-core", specifier = ">=0.2.1" },
+    { name = "openenv-core", specifier = ">=0.2.3" },
     { name = "pydantic" },
     { name = "pytest", marker = "extra == 'dev'", specifier = ">=8.0.0" },
     { name = "pytest-cov", marker = "extra == 'dev'", specifier = ">=4.0.0" },

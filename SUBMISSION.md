@@ -7,6 +7,8 @@
 - Trained checkpoint: https://huggingface.co/heavycoderhh/counsel-env-qwen3-8b-qlora-sft-run4b
 - Trained eval artifacts: https://huggingface.co/heavycoderhh/counsel-env-qwen3-8b-qlora-sft-run4b/tree/main/eval
 - Expanded 150-seed eval: https://huggingface.co/heavycoderhh/counsel-env-qwen3-8b-qlora-sft-run4b/tree/main/eval_150
+- Mini-blog draft: `assets/demo/blog_draft.md`
+- Video script: `assets/demo/video_script.md`
 
 ## Verification Snapshot
 
@@ -56,10 +58,18 @@ Run4c is not needed for submission right now. The expanded eval found no hard/me
 - `assets/trained_eval_run4b_8b_sft_eval150/eval_150/trained_eval_rows.csv`
 - `assets/trained_eval_run4b_8b_sft_eval150/eval_150/trained_eval_rows.jsonl`
 - `assets/trained_eval_run4b_8b_sft_eval150/eval_150/trained_eval_transcripts.md`
+- `assets/training_curves/run4b_training_loss.png`
+- `assets/training_curves/run4b_eval_rewards.png`
+- `assets/training_curves/run4b_training_loss.csv`
+- `assets/training_curves/run4b_eval_rewards.csv`
 - `assets/heldout_eval_summary.json`
 - `assets/transcripts/before_after_pairs.md`
 - `assets/demo/video_script.md`
 - `assets/demo/blog_draft.md`
+
+## Final Human Step
+
+Publish either the mini-blog or the sub-2-minute video, then paste its public URL into the Space README before final form submission. The draft/script are already in the repo; no large video file should be uploaded to the Hub.
 
 ## Local Validation
 

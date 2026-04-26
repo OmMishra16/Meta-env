@@ -51,6 +51,9 @@ Judge-facing cards included in this Space:
 - [`BENCHMARKS.md`](BENCHMARKS.md): held-out baseline and reward-hacking audit.
 - [`DEMO_SCRIPT.md`](DEMO_SCRIPT.md): 90-second video script and shot list.
 - [`TRAINING_PROOF.md`](TRAINING_PROOF.md): tiny GRPO dry-run path with spend guardrails.
+- [`assets/demo/blog_draft.md`](assets/demo/blog_draft.md): mini-blog draft ready to publish.
+- [`assets/training_curves/run4b_training_loss.png`](assets/training_curves/run4b_training_loss.png): real run4b training loss plot from HF job logs.
+- [`assets/training_curves/run4b_eval_rewards.png`](assets/training_curves/run4b_eval_rewards.png): trained-vs-baseline reward plot.
 
 ## Why This Is Hard
 
@@ -135,6 +138,18 @@ The trained run4b checkpoint (`heavycoderhh/counsel-env-qwen3-8b-qlora-sft-run4b
 The 150-seed expansion also breaks the trained score down by difficulty: easy primary/surface `1.000`, medium `0.903`, hard `0.939`, with `0` invalid tool calls. That diagnosis does not justify spending credits on run4c yet; medium is the weakest slice, but still comfortably above the submission target.
 
 The same benchmark table is embedded in the live demo so judges can see the failure modes without cloning the repo.
+
+## Training Evidence
+
+Run4b was a real 4-bit QLoRA SFT run on `Qwen/Qwen3-8B`, launched as Hugging Face job `69edb014d2c8bd8662bcf5ba`. It trained on 1,460 assistant-only next-action rows generated from the environment curriculum and uploaded the PEFT adapter to `heavycoderhh/counsel-env-qwen3-8b-qlora-sft-run4b`.
+
+![Run4b training loss](assets/training_curves/run4b_training_loss.png)
+
+The logged SFT loss dropped rapidly during the 220-step run; final `train_loss` was `0.0565` with runtime `1287.7s`.
+
+![Run4b held-out reward](assets/training_curves/run4b_eval_rewards.png)
+
+The reward plot compares the trained checkpoint against random, keyword-spam, present-all, the previous run3 checkpoint, and the scripted oracle.
 
 ## Demo Walkthrough
 
@@ -242,6 +257,15 @@ COUNSEL_GRAD_ACCUM=4 \
 COUNSEL_INCLUDE_REST_ROWS=0 \
 python counsel_env/scripts/run_qlora_sft_training_job.py
 ```
+
+The repo also includes TRL GRPO training paths that connect to the live OpenEnv server instead of a static-only dataset:
+
+```text
+counsel_env/scripts/run_grpo_training_job.py
+counsel_env/scripts/run_sft_grpo_training_job.py
+```
+
+Run3 used the SFT+GRPO path as an ablation, and run4b is the stronger official checkpoint.
 
 The current Space deployment does not start a paid GPU job. Before running remote training, approve the spend. Estimated costs:
 
