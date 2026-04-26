@@ -2,6 +2,7 @@ import random
 
 from counsel_env.models import CounselAction
 from counsel_env.evaluation import evaluate_agent, present_all_agent, keyword_spam_agent, oracle_scripted_agent
+from counsel_env.server.app import app
 from counsel_env.server.case_generator import generate_case
 from counsel_env.server.counsel_env_environment import CounselEnvironment
 from counsel_env.server.witness import Contradiction, Witness
@@ -92,6 +93,14 @@ class TestCaseGeneration:
 
 
 class TestEnvironmentLogic:
+    def test_space_demo_routes_registered(self):
+        paths = {route.path for route in app.routes}
+
+        assert "/" in paths
+        assert "/demo" in paths
+        assert "/demo/api/reset" in paths
+        assert "/demo/api/step" in paths
+
     def test_reset_state(self):
         env = CounselEnvironment()
         obs = env.reset(difficulty="easy")

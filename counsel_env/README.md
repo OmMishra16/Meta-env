@@ -1,5 +1,5 @@
 ---
-title: Counsel Env
+title: "Counsel Env: Cross-Examination Arena"
 emoji: "⚖️"
 colorFrom: indigo
 colorTo: yellow
@@ -18,7 +18,7 @@ tags:
 
 # Cross-Examination Arena
 
-We built a courtroom where an LLM learns to catch lies.
+We built a courtroom where an LLM learns to catch lies under a question budget.
 
 Counsel-Env trains an agent to act like a sharper trial lawyer: make a deterministic witness commit to a claim, then present the exhibit that proves the claim false. It is built for OpenEnv and GRPO-style post-training on multi-agent, partially observable dialogue.
 
@@ -26,7 +26,32 @@ Counsel-Env trains an agent to act like a sharper trial lawyer: make a determini
 >
 > Target behavior: trigger sealed claim, present matching exhibit, surface contradiction.
 
-![Held-out baseline reward comparison](../assets/plots/baseline_vs_oracle.svg)
+## Try It Now
+
+Open the live Space demo:
+
+```text
+https://heavycoderhh-counsel-env.hf.space/demo
+```
+
+What to try:
+
+1. Reset an easy case.
+2. Ask the witness the oracle-hint question to make them commit to a sealed claim.
+3. Present the hinted exhibit.
+4. Rest the case and watch primary reward appear.
+
+The hint is intentionally exposed for the demo. The training task is to make a model learn that sequence from observations, evidence descriptions, and reward.
+
+Judge-facing cards included in this Space:
+
+- [`BENCHMARKS.md`](BENCHMARKS.md): held-out baseline and reward-hacking audit.
+- [`DEMO_SCRIPT.md`](DEMO_SCRIPT.md): 90-second video script and shot list.
+- [`TRAINING_PROOF.md`](TRAINING_PROOF.md): tiny GRPO dry-run path with spend guardrails.
+
+## Why This Is Hard
+
+The agent must track another actor's commitments. Presenting evidence too early fails; asking generic questions fails; keyword spam can trigger a claim but does not prove anything. Reward only becomes strong when the agent sequences the cross-examination correctly.
 
 ```mermaid
 flowchart LR
@@ -97,11 +122,14 @@ The local evaluator compares four baselines:
 | random | 0.000 | 0.000 | 0.000 | 0.000 |
 | keyword_spam | 0.073 | 0.000 | 0.678 | 0.000 |
 | present_all | 0.000 | 0.000 | 0.000 | 0.000 |
+| trained_sft_grpo_run2 | 0.387 | 0.461 | 0.589 | 0.461 |
 | scripted_oracle | 0.902 | 0.950 | 0.950 | 0.950 |
 
 This shows the obvious hacks do not get primary reward: keyword spam can trigger claims, and present-all can burn exhibits, but neither surfaces contradictions.
 
-![Reward-hacking audit metrics](../assets/plots/rubric_breakdown.svg)
+The trained run-2 checkpoint (`heavycoderhh/counsel-env-qwen3-0.6b-grpo-run2`) uses oracle SFT warm-start plus GRPO refinement. It surfaces contradictions on held-out cases, while the first 200-step GRPO-only checkpoint learned mostly to ask a trigger question without presenting evidence.
+
+The same benchmark table is embedded in the live demo so judges can see the failure modes without cloning the repo.
 
 ## Demo Walkthrough
 
@@ -194,10 +222,31 @@ Tiny approved dry-run mode:
 RUN_TRAINING=1 COUNSEL_MODEL=Qwen/Qwen3-0.6B COUNSEL_MAX_STEPS=5 COUNSEL_DATASET_SIZE=12
 ```
 
-Before running remote training, approve the spend. Estimated costs:
+The current Space deployment does not start a paid GPU job. Before running remote training, approve the spend. Estimated costs:
 
 - A10G dry run: about `$0.50`
 - Full A100 GRPO run: about `$6-$10`
+
+Published training artifact:
+
+```text
+https://huggingface.co/heavycoderhh/counsel-env-qwen3-0.6b-grpo-run2
+```
+
+Held-out evaluation artifacts are in:
+
+```text
+https://huggingface.co/heavycoderhh/counsel-env-qwen3-0.6b-grpo-run2/tree/main/eval
+```
+
+The same trained eval files are mirrored locally for offline review:
+
+```text
+assets/trained_eval/trained_eval_rows.csv
+assets/trained_eval/trained_eval_rows.jsonl
+assets/trained_eval/trained_eval_summary.json
+assets/trained_eval/trained_eval_transcripts.md
+```
 
 ## Run Server Locally
 
@@ -224,8 +273,8 @@ with CounselEnv(base_url="http://localhost:8000").sync() as client:
 - Cases are template-generated rather than open-domain.
 - The environment models adversarial questioning mechanics, not full legal procedure.
 
-Future work: self-play witness training, civil deposition templates, jurisdiction-specific admissibility rules, and trained-vs-baseline model ablations after the first GRPO run.
+Future work: self-play witness training, civil deposition templates, jurisdiction-specific admissibility rules, and larger trained-vs-baseline model ablations.
 
 ## Status
 
-Local environment validation is complete. Hugging Face Space deployment, real GRPO training, trained-model reward curves, and public video/blog publishing still require approval and compute.
+The Hugging Face Space is deployed on free `cpu-basic` hardware with the live demo and OpenEnv API. Local validation passes. A trained SFT+GRPO checkpoint and held-out evaluation are published on Hugging Face, and the final video/blog scripts are prepared under `assets/demo/`.

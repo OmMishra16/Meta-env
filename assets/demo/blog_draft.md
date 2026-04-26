@@ -19,12 +19,19 @@ We built a local reward-hacking audit with four baselines:
 | random | 0.000 | vague questions and accidental exhibits |
 | keyword_spam | 0.073 | trigger words without proof |
 | present_all | 0.000 | blind evidence dumping |
+| trained_sft_grpo_run2 | 0.387 | learned question-then-evidence timing |
 | scripted_oracle | 0.902 | upper-bound trigger-then-evidence strategy |
 
-This gives the environment a clear training target. A trained model should climb above random and reward-hacking baselines, but the oracle ceiling shows there is still room for better planning.
+This gives the environment a clear training target. The run-2 checkpoint uses 320 oracle SFT demonstrations followed by 250 GRPO steps. On 30 held-out seeded cases it reaches 0.387 average reward and 0.461 primary/surface rate: clearly above random, keyword spam, and blind evidence dumping, while still leaving room below the oracle ceiling.
 
 The environment supports replayable seeds, held-out evaluation, transcript export, and per-component reward logging. That means we can compare the same case before and after training, inspect whether the model learned evidence timing, and catch cases where it only learned shallow trigger patterns.
 
 Counsel-Env is aimed at Theme 1: multi-agent interactions. It also touches long-horizon planning because the agent must track what the witness has committed to across turns, choose among exhibits, and avoid wasting a limited question budget.
 
 The core idea is simple: if we want LLMs that reason about other agents, we should train them in worlds where another agent's commitments matter.
+
+Artifacts:
+
+- Space: `https://huggingface.co/spaces/heavycoderhh/counsel-env`
+- Checkpoint: `https://huggingface.co/heavycoderhh/counsel-env-qwen3-0.6b-grpo-run2`
+- Local trained eval mirror: `assets/trained_eval/`

@@ -32,4 +32,4 @@ The agent presents timestamped surveillance footage. The claim collapses. Contra
 
 This is theory-of-mind under a budget: tracking what another agent has committed to, choosing the right evidence, and recovering from partial information.
 
-Next step: GRPO training on OpenEnv, with held-out seeded cases and before/after transcripts.
+After an oracle SFT warm start plus 250 GRPO steps, the run-2 checkpoint surfaces contradictions on held-out cases. It is not oracle-level, but it learns the core sequence: trigger first, evidence second.

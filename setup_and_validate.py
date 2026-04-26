@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Run local validation checks and print credit-safe next steps."""
+"""Run local validation checks and print submission artifact status."""
 
 import os
 import subprocess
@@ -46,10 +46,11 @@ def main() -> int:
         if not run(cmd, description):
             failures += 1
 
-    section("HF CREDIT SAFETY")
+    section("SUBMISSION ARTIFACTS")
     print(
-        "No Hugging Face jobs or pushes were run. Before remote training, budget roughly "
-        "$0.50 for an A10G dry run and $6-$10 for a 90 minute A100 GRPO run."
+        "Published Space: https://huggingface.co/spaces/heavycoderhh/counsel-env\n"
+        "Published checkpoint: https://huggingface.co/heavycoderhh/counsel-env-qwen3-0.6b-grpo-run2\n"
+        "Mirrored trained eval artifacts: assets/trained_eval/"
     )
 
     section("SUMMARY")
@@ -57,7 +58,7 @@ def main() -> int:
         print(f"[FAIL] {failures} local validation check(s) failed.")
         return 1
     print("[OK] Local environment, tests, and rollout diagnostics are green.")
-    print("Next: run approved remote GRPO training, then commit real reward curves.")
+    print("[OK] Run-2 SFT+GRPO checkpoint and held-out eval artifacts are ready for judges.")
     return 0
 
 

@@ -2,7 +2,7 @@
 
 ## Status
 
-Counsel-Env is locally validated and ready for the final Hugging Face deployment/training step after explicit credit approval. No Hugging Face credits were used in this pass.
+Counsel-Env is locally validated, deployed as a public Hugging Face Space, and backed by a published SFT+GRPO run-2 checkpoint. The trained eval artifacts are mirrored locally under `assets/trained_eval/` and published in the model repo under `eval/`.
 
 Latest local preflight:
 
@@ -17,7 +17,7 @@ Coverage included:
 - notebook syntax and credit guards
 - package-style and Docker/Space-style imports
 - component validation
-- full pytest suite: `20 passed`
+- full pytest suite: `21 passed`
 - rollout diagnostics
 - held-out baseline evaluation
 - reward-hacking audit
@@ -115,16 +115,21 @@ Latest 30-seed held-out results:
 | random | 0.000 | 0.000 | 0.000 | 0.000 |
 | keyword_spam | 0.073 | 0.000 | 0.678 | 0.000 |
 | present_all | 0.000 | 0.000 | 0.000 | 0.000 |
+| trained_sft_grpo_run2 | 0.387 | 0.461 | 0.589 | 0.461 |
 | scripted_oracle | 0.902 | 0.950 | 0.950 | 0.950 |
 
 This shows the obvious hacks fail: keyword spam can trigger claims but cannot score primary reward, and blind evidence presentation scores zero.
 
-Artifacts:
+Local artifacts:
 
 ```text
 assets/heldout_eval.jsonl
 assets/heldout_eval_summary.json
 assets/heldout_eval_summary.csv
+assets/trained_eval/trained_eval_rows.csv
+assets/trained_eval/trained_eval_rows.jsonl
+assets/trained_eval/trained_eval_summary.json
+assets/trained_eval/trained_eval_transcripts.md
 assets/plots/baseline_vs_oracle.svg
 assets/plots/rubric_breakdown.svg
 ```
@@ -143,23 +148,28 @@ Remote training is still disabled by default:
 - `push_to_hub=False`
 - `report_to="none"`
 
-## Why This Improves the Submission
+## Why This Completes the Submission Evidence
 
 The project now demonstrates the full loop judges care about:
 
 - The environment is replayable.
 - The reward cannot be gamed by obvious baselines.
 - The transcript artifacts explain agent behavior.
-- The evaluation set gives measurable before/after structure.
+- The evaluation set gives measurable trained-vs-baseline structure.
 - The local preflight catches Docker/Space import issues before HF.
+- The trained run-2 checkpoint shows nonzero held-out contradiction surfacing above reward-hacking baselines.
 
-The only missing evidence is the real trained-model curve, which requires approved GPU compute.
+## Published Artifacts
+
+```text
+Space: https://huggingface.co/spaces/heavycoderhh/counsel-env
+Checkpoint: https://huggingface.co/heavycoderhh/counsel-env-qwen3-0.6b-grpo-run2
+Checkpoint eval: https://huggingface.co/heavycoderhh/counsel-env-qwen3-0.6b-grpo-run2/tree/main/eval
+```
 
 ## HF Credit Note
 
-No Hugging Face credits were used.
-
-Estimated next costs:
+The local validation commands do not start paid jobs. The run-2 checkpoint was produced after approved remote training. Future retraining should still be approved before use; rough reference costs:
 
 - A10G dry run: about `$0.50`
 - full A100 GRPO run, roughly 90 minutes: `$6-$10`

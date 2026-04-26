@@ -37,9 +37,11 @@ except Exception as e:  # pragma: no cover
 
 try:
     from ..models import CounselAction, CounselObservation
+    from .demo import register_demo_routes
     from .counsel_env_environment import CounselEnvironment
 except (ImportError, ModuleNotFoundError):
     from models import CounselAction, CounselObservation
+    from server.demo import register_demo_routes
     from server.counsel_env_environment import CounselEnvironment
 
 
@@ -51,9 +53,10 @@ app = create_app(
     env_name="counsel_env",
     max_concurrent_envs=64,  # increase this number to allow more concurrent WebSocket sessions
 )
+register_demo_routes(app)
 
 
-def main(host: str = "0.0.0.0", port: int = 8000):
+def run_server(host: str = "0.0.0.0", port: int = 8000):
     """
     Entry point for direct execution via uv run or python -m.
 
@@ -75,10 +78,15 @@ def main(host: str = "0.0.0.0", port: int = 8000):
     uvicorn.run(app, host=host, port=port)
 
 
-if __name__ == "__main__":
+def main():
     import argparse
 
     parser = argparse.ArgumentParser()
+    parser.add_argument("--host", default="0.0.0.0")
     parser.add_argument("--port", type=int, default=8000)
     args = parser.parse_args()
-    main(port=args.port)
+    run_server(host=args.host, port=args.port)
+
+
+if __name__ == "__main__":
+    main()

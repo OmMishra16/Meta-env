@@ -52,7 +52,7 @@ def check_manifest_and_docs() -> None:
     assert "name: counsel-env" in manifest
     assert "multi-agent" in manifest
     assert "Cross-Examination Arena" in readme
-    assert "We built a courtroom where an LLM learns to catch lies." in readme
+    assert "We built a courtroom where an LLM learns to catch lies" in readme
     assert "Reward-Hacking Audit" in readme
     assert (ROOT / "assets" / "demo" / "demo_case.md").exists()
     assert (ROOT / "assets" / "demo" / "video_script.md").exists()
@@ -142,12 +142,18 @@ def check_rollout_debug() -> None:
 
 def check_evaluation_artifacts() -> None:
     summary_path = ROOT / "assets" / "heldout_eval_summary.json"
+    trained_summary_path = ROOT / "assets" / "trained_eval" / "trained_eval_summary.json"
+    trained_rows_path = ROOT / "assets" / "trained_eval" / "trained_eval_rows.csv"
+    trained_transcripts_path = ROOT / "assets" / "trained_eval" / "trained_eval_transcripts.md"
     transcripts_path = ROOT / "assets" / "transcripts" / "before_after_pairs.md"
     plot_paths = [
         ROOT / "assets" / "plots" / "baseline_vs_oracle.svg",
         ROOT / "assets" / "plots" / "rubric_breakdown.svg",
     ]
     assert summary_path.exists(), "missing heldout_eval_summary.json"
+    assert trained_summary_path.exists(), "missing trained_eval_summary.json"
+    assert trained_rows_path.exists(), "missing trained_eval_rows.csv"
+    assert trained_transcripts_path.exists(), "missing trained_eval_transcripts.md"
     assert transcripts_path.exists(), "missing before_after_pairs.md"
     for path in plot_paths:
         assert path.exists(), f"missing plot: {path}"
@@ -156,7 +162,12 @@ def check_evaluation_artifacts() -> None:
     assert by_agent["scripted_oracle"]["avg_reward"] > by_agent["keyword_spam"]["avg_reward"]
     assert by_agent["scripted_oracle"]["avg_reward"] > by_agent["present_all"]["avg_reward"]
     assert by_agent["present_all"]["avg_reward"] == 0.0
+    trained_summaries = json.loads(trained_summary_path.read_text(encoding="utf-8"))
+    trained_by_agent = {row["agent"]: row for row in trained_summaries}
+    assert trained_by_agent["trained_sft_grpo_run2"]["avg_reward"] > by_agent["keyword_spam"]["avg_reward"]
+    assert trained_by_agent["trained_sft_grpo_run2"]["avg_primary_reward"] > 0.0
     assert "Triggered:" in transcripts_path.read_text(encoding="utf-8")
+    assert "Agent: trained_sft_grpo_run2" in trained_transcripts_path.read_text(encoding="utf-8")
     print("[OK] held-out evaluation artifacts and reward-hacking audit")
 
 
@@ -172,7 +183,7 @@ def main() -> int:
     check_evaluation_artifacts()
     check_server_smoke()
     print("\n[OK] PRE-HF PREFLIGHT PASSED")
-    print("No Hugging Face credits used. Next remote step should be explicit approval for Space push or GPU training.")
+    print("No Hugging Face credits used by this local validation run. Published Space, checkpoint, and eval artifacts are present.")
     return 0
 
 
