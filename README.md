@@ -1,3 +1,24 @@
+---
+title: "Counsel Env: Cross-Examination Arena"
+emoji: "⚖️"
+colorFrom: indigo
+colorTo: yellow
+sdk: docker
+pinned: false
+app_port: 8000
+base_path: /web
+tags:
+ - openenv
+ - rl
+ - multi-agent
+ - theory-of-mind
+ - adversarial-dialogue
+ - procgen
+models:
+ - heavycoderhh/counsel-env-qwen3-8b-qlora-sft-run4b
+ - Qwen/Qwen3-8B
+---
+
 # Counsel-Env: Cross-Examination Arena
 
 Counsel-Env is an OpenEnv courtroom environment where an LLM learns to cross-examine a deterministic witness: make the witness commit to a claim, then present the exhibit that proves the claim false.
@@ -13,26 +34,15 @@ We built it around a simple courtroom failure mode: a witness says something tha
 - Hugging Face Space: https://huggingface.co/spaces/heavycoderhh/counsel-env
 - Live demo: https://heavycoderhh-counsel-env.hf.space/demo
 - Official checkpoint: https://huggingface.co/heavycoderhh/counsel-env-qwen3-8b-qlora-sft-run4b
-- Original 30-seed eval: https://huggingface.co/heavycoderhh/counsel-env-qwen3-8b-qlora-sft-run4b/tree/main/eval
-- Expanded 150-seed eval: https://huggingface.co/heavycoderhh/counsel-env-qwen3-8b-qlora-sft-run4b/tree/main/eval_150
-- Blog writeup: [BLOG.md](BLOG.md)
-
-## File Structure
-
-```text
-.
-|-- README.md                 # single project overview and submission guide
-|-- BLOG.md                   # short human-readable project blog
-|-- LICENSE                   # BSD-3-Clause license
-|-- counsel_env/              # runnable OpenEnv package and HF Space source
-|-- assets/                   # plots, eval mirrors, demo material
-|-- scripts/                  # validation, eval, and plotting utilities
-`-- pytest.ini                # local test config
-```
+- 30-seed eval mirror: https://huggingface.co/heavycoderhh/counsel-env-qwen3-8b-qlora-sft-run4b/tree/main/eval
+- 150-seed eval mirror: https://huggingface.co/heavycoderhh/counsel-env-qwen3-8b-qlora-sft-run4b/tree/main/eval_150
+- Blog writeup: https://huggingface.co/spaces/heavycoderhh/counsel-env/blob/main/BLOG.md
+- Run4b training notebook: https://huggingface.co/spaces/heavycoderhh/counsel-env/blob/main/notebooks/train_counsel_run4b.ipynb
+- GitHub source: https://github.com/OmMishra16/Meta-env
 
 ## Try It
 
-Open the live demo:
+Open the live Space demo:
 
 ```text
 https://heavycoderhh-counsel-env.hf.space/demo
@@ -41,7 +51,7 @@ https://heavycoderhh-counsel-env.hf.space/demo
 What to try:
 
 1. Reset an easy case.
-2. Ask the witness the oracle-hint question.
+2. Ask the witness the oracle-hint question to make them commit to a sealed claim.
 3. Present the hinted exhibit.
 4. Rest the case and watch primary reward appear.
 
@@ -50,6 +60,15 @@ The hint is intentionally exposed for the demo. The training task is to make a m
 ## Why This Is Hard
 
 The agent must track another actor's commitments. Presenting evidence too early fails; asking generic questions fails; keyword spam can trigger a claim but does not prove anything. Reward only becomes strong when the agent sequences the cross-examination correctly.
+
+```mermaid
+flowchart LR
+  A[Procgen Case Generator] --> B[Deterministic Witness]
+  B --> C[Agent Tools]
+  C --> D[Transcript + State Tracker]
+  D --> E[Weighted Reward Rubric]
+  E --> F[GRPO Training Loop]
+```
 
 Each episode is a procedurally generated case with:
 
@@ -75,17 +94,7 @@ Counsel-Env uses OpenEnv's standard environment shape:
 - `step`: execute an action
 - `state`: inspect compact environment state
 
-The main environment implementation is here:
-
-```text
-counsel_env/server/counsel_env_environment.py
-```
-
-The OpenEnv manifest is here:
-
-```text
-counsel_env/openenv.yaml
-```
+The environment implementation lives in `counsel_env/server/counsel_env_environment.py` and the OpenEnv manifest is in `counsel_env/openenv.yaml`.
 
 Available actions:
 
@@ -144,11 +153,7 @@ Run4b is the official submission checkpoint. Run4c was not launched because the 
 
 ## Training Evidence
 
-Run4b was a real 4-bit QLoRA SFT run on `Qwen/Qwen3-8B`, launched as Hugging Face job `69edb014d2c8bd8662bcf5ba`. It trained on 1,460 assistant-only next-action rows generated from the environment curriculum and uploaded the PEFT adapter to:
-
-```text
-heavycoderhh/counsel-env-qwen3-8b-qlora-sft-run4b
-```
+Run4b was a real 4-bit QLoRA SFT run on `Qwen/Qwen3-8B`, launched as Hugging Face job `69edb014d2c8bd8662bcf5ba`. It trained on 1,460 assistant-only next-action rows generated from the environment curriculum and uploaded the PEFT adapter to `heavycoderhh/counsel-env-qwen3-8b-qlora-sft-run4b`.
 
 The logged SFT loss dropped quickly during the 220-step run. Final `train_loss` was `0.0565`, with runtime `1287.7s`.
 
@@ -158,14 +163,7 @@ The reward plot compares the trained checkpoint against random, keyword-spam, pr
 
 ![Run4b held-out reward vs baselines](assets/training_curves/run4b_eval_rewards.png)
 
-Chart files:
-
-- [assets/training_curves/run4b_training_loss.png](assets/training_curves/run4b_training_loss.png)
-- [assets/training_curves/run4b_eval_rewards.png](assets/training_curves/run4b_eval_rewards.png)
-- [assets/training_curves/run4b_training_loss.csv](assets/training_curves/run4b_training_loss.csv)
-- [assets/training_curves/run4b_eval_rewards.csv](assets/training_curves/run4b_eval_rewards.csv)
-
-## Training Scripts
+## Training Scripts And Notebooks
 
 Run4b training notebook (mirrors the script that produced the official checkpoint):
 
@@ -179,7 +177,7 @@ Credit-safe GRPO demo notebook:
 counsel_env/notebooks/train_counsel.ipynb
 ```
 
-Fast 8B QLoRA SFT path used for the current best checkpoint:
+Fast 8B QLoRA SFT command used for run4b:
 
 ```bash
 COUNSEL_MODEL=Qwen/Qwen3-8B \
@@ -195,33 +193,21 @@ COUNSEL_INCLUDE_REST_ROWS=0 \
 python counsel_env/scripts/run_qlora_sft_training_job.py
 ```
 
-TRL GRPO paths are also included:
+TRL GRPO training paths are also included:
 
 ```text
 counsel_env/scripts/run_grpo_training_job.py
 counsel_env/scripts/run_sft_grpo_training_job.py
 ```
 
-The notebook and scripts are credit-safe by default and do not start paid GPU training unless explicitly configured.
+The notebooks and scripts are credit-safe by default and do not start paid GPU training unless explicitly configured. Estimated remote costs:
 
-## Evidence Artifacts
-
-Submission evidence:
-
-- [BLOG.md](BLOG.md)
-- [counsel_env/BENCHMARKS.md](counsel_env/BENCHMARKS.md)
-- [assets/demo/video_script.md](assets/demo/video_script.md)
-
-Local trained eval mirrors:
-
-```text
-assets/trained_eval_run4b_8b_sft/eval/
-assets/trained_eval_run4b_8b_sft_eval150/eval_150/
-```
+- A10G dry run: about `$0.50`
+- Full A100 GRPO run: about `$6-$10`
 
 ## Run Locally
 
-Install dependencies in your preferred environment, then run:
+Start the OpenEnv server:
 
 ```bash
 uvicorn counsel_env.server.app:app --host 0.0.0.0 --port 8000
@@ -261,20 +247,43 @@ Latest validation result:
 PRE-HF PREFLIGHT PASSED
 ```
 
+## File Structure
+
+```text
+.
+|-- README.md                 # this file (also the HF Space frontpage)
+|-- BLOG.md                   # short human-readable project blog
+|-- LICENSE                   # BSD-3-Clause license
+|-- counsel_env/              # runnable OpenEnv package and HF Space source
+|   |-- BENCHMARKS.md         # benchmark numbers and reward-hacking audit
+|   |-- notebooks/            # train_counsel.ipynb + train_counsel_run4b.ipynb
+|   |-- scripts/              # QLoRA SFT and GRPO training entry points
+|   `-- server/               # FastAPI app and CounselEnvironment
+|-- assets/
+|   |-- training_curves/      # run4b loss + reward plots and CSVs
+|   |-- trained_eval_run4b_8b_sft/        # 30-seed run4b eval mirror
+|   |-- trained_eval_run4b_8b_sft_eval150/ # 150-seed run4b eval mirror
+|   |-- demo/                 # video script and same-seed demo case
+|   |-- diagnostics/          # rollout diagnostics jsonl
+|   `-- plots/                # baseline-vs-oracle and rubric plots
+|-- scripts/                  # validation, eval, and plotting utilities
+`-- pytest.ini                # local test config
+```
+
 ## Limitations
 
 - The witness is rule-based so reward stays verifiable and cheap.
 - Cases are template-generated rather than open-domain.
 - The environment models adversarial questioning mechanics, not full legal procedure.
 
+Future work: self-play witness training, civil deposition templates, jurisdiction-specific admissibility rules, and larger trained-vs-baseline model ablations.
+
 ## Status
 
 Counsel-Env is submission-ready:
 
-- HF Space is public and runnable.
-- OpenEnv API is implemented.
-- Training scripts and notebook are included.
-- Run4b checkpoint is published.
-- Training/eval plots are committed.
-- Expanded 150-seed eval is published.
-- README links the Space, checkpoint, eval, charts, and blog.
+- HF Space is public and runnable on free `cpu-basic` hardware.
+- OpenEnv API is implemented and validated locally.
+- Run4b checkpoint is published and evaluated on 150 deterministic seeds.
+- Training scripts, both notebooks, and run4b plots are committed.
+- This README links the Space, checkpoint, eval mirrors, training curves, and blog.
