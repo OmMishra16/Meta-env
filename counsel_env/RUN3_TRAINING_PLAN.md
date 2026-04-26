@@ -20,7 +20,7 @@ Run 2 proves the environment works: the model beats reward-hacking baselines and
   - valid exhibit IDs
 - Increase default SFT demonstrations from 320 to 720.
 - Increase default GRPO steps from 250 to 500.
-- Increase `num_generations` from 4 to 6.
+- Keep `num_generations=4`, matching TRL's default generation batch size on a single GPU.
 - Increase evidence pressure and duplicate-question penalties.
 
 ## Default Run-3 Settings
@@ -31,7 +31,7 @@ COUNSEL_ARTIFACT_REPO=heavycoderhh/counsel-env-qwen3-0.6b-grpo-run3
 COUNSEL_SFT_DATASET_SIZE=720
 COUNSEL_MAX_STEPS=500
 COUNSEL_DATASET_SIZE=320
-COUNSEL_NUM_GENERATIONS=6
+COUNSEL_NUM_GENERATIONS=4
 COUNSEL_MAX_COMPLETION_LENGTH=256
 COUNSEL_LEARNING_RATE=3e-6
 COUNSEL_EVIDENCE_PRESSURE=2.0
