@@ -22,7 +22,7 @@ import random
 import re
 import sys
 from pathlib import Path
-from statistics import mean
+from statistics import mean, stdev
 from typing import Any, Dict, List, Optional
 
 import pandas as pd
@@ -43,6 +43,7 @@ MAX_TOOL_STEPS = int(os.getenv("COUNSEL_EVAL_MAX_TOOL_STEPS", "8"))
 MAX_NEW_TOKENS = int(os.getenv("COUNSEL_EVAL_MAX_NEW_TOKENS", "256"))
 START_SEED = int(os.getenv("COUNSEL_EVAL_START_SEED", "20260425"))
 UPLOAD_REPO = os.getenv("COUNSEL_EVAL_UPLOAD_REPO", MODEL_REPO)
+UPLOAD_PATH = os.getenv("COUNSEL_EVAL_UPLOAD_PATH", "eval")
 
 
 def prepare_imports() -> None:
@@ -273,11 +274,62 @@ def evaluate_model(repo_id: str, episodes: int, label: str) -> tuple[List[dict],
     return rows, transcripts
 
 
+def _mean_ci(values: List[float]) -> tuple[float, float]:
+    if not values:
+        return 0.0, 0.0
+    avg = mean(values)
+    if len(values) < 2:
+        return avg, 0.0
+    return avg, 1.96 * stdev(values) / (len(values) ** 0.5)
+
+
+def summarize_group(rows: List[dict], group: Dict[str, str]) -> dict:
+    rewards = [row["reward"] for row in rows]
+    primary = [row["primary_reward"] for row in rows]
+    trigger_rates = [
+        row["contradictions_triggered"] / max(1, row["contradictions_total"])
+        for row in rows
+    ]
+    surface_rates = [
+        row["contradictions_surfaced"] / max(1, row["contradictions_total"])
+        for row in rows
+    ]
+    reward_mean, reward_ci95 = _mean_ci(rewards)
+    primary_mean, primary_ci95 = _mean_ci(primary)
+    surface_mean, surface_ci95 = _mean_ci(surface_rates)
+    return {
+        **group,
+        "episodes": len(rows),
+        "avg_reward": reward_mean,
+        "avg_reward_ci95": reward_ci95,
+        "avg_primary_reward": primary_mean,
+        "avg_primary_reward_ci95": primary_ci95,
+        "avg_trigger_rate": mean(trigger_rates) if trigger_rates else 0.0,
+        "avg_surface_rate": surface_mean,
+        "avg_surface_rate_ci95": surface_ci95,
+        "avg_evidence_timing": mean(row["evidence_timing_successes"] for row in rows) if rows else 0.0,
+        "avg_useless_ratio": mean(row["useless_questions_ratio"] for row in rows) if rows else 0.0,
+        "invalid_tool_calls": sum(int(row.get("invalid_tool_calls", 0)) for row in rows),
+    }
+
+
+def summarize_expanded(rows: List[dict]) -> List[dict]:
+    summaries: List[dict] = []
+    for agent in sorted({row["agent"] for row in rows}):
+        agent_rows = [row for row in rows if row["agent"] == agent]
+        summaries.append(summarize_group(agent_rows, {"agent": agent, "slice": "all"}))
+        for difficulty in sorted({row["difficulty"] for row in agent_rows}):
+            difficulty_rows = [row for row in agent_rows if row["difficulty"] == difficulty]
+            summaries.append(summarize_group(difficulty_rows, {"agent": agent, "slice": difficulty}))
+    return summaries
+
+
 def write_outputs(rows: List[dict], baseline_rows: List[dict], transcripts: List[str]) -> None:
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
     all_rows = baseline_rows + rows
     compact_rows = [{k: v for k, v in row.items() if k != "transcript"} for row in all_rows]
     summary = summarize(compact_rows)
+    expanded_summary = summarize_expanded(compact_rows)
     (OUTPUT_DIR / "trained_eval_rows.jsonl").write_text(
         "\n".join(json.dumps(row, sort_keys=True) for row in compact_rows) + "\n",
         encoding="utf-8",
@@ -286,12 +338,18 @@ def write_outputs(rows: List[dict], baseline_rows: List[dict], transcripts: List
         json.dumps(summary, indent=2, sort_keys=True),
         encoding="utf-8",
     )
+    (OUTPUT_DIR / "trained_eval_expanded_summary.json").write_text(
+        json.dumps(expanded_summary, indent=2, sort_keys=True),
+        encoding="utf-8",
+    )
     (OUTPUT_DIR / "trained_eval_transcripts.md").write_text(
         "\n\n---\n\n".join(transcripts),
         encoding="utf-8",
     )
     pd.DataFrame(compact_rows).to_csv(OUTPUT_DIR / "trained_eval_rows.csv", index=False)
+    pd.DataFrame(expanded_summary).to_csv(OUTPUT_DIR / "trained_eval_expanded_summary.csv", index=False)
     print(json.dumps(summary, indent=2, sort_keys=True))
+    print(json.dumps(expanded_summary, indent=2, sort_keys=True))
 
 
 def upload_outputs() -> None:
@@ -304,10 +362,10 @@ def upload_outputs() -> None:
         repo_id=UPLOAD_REPO,
         repo_type="model",
         folder_path=str(OUTPUT_DIR),
-        path_in_repo="eval",
+        path_in_repo=UPLOAD_PATH,
         commit_message="Add held-out trained checkpoint evaluation",
     )
-    print(f"Uploaded evaluation outputs to https://huggingface.co/{UPLOAD_REPO}/tree/main/eval")
+    print(f"Uploaded evaluation outputs to https://huggingface.co/{UPLOAD_REPO}/tree/main/{UPLOAD_PATH}")
 
 
 def main() -> None:
