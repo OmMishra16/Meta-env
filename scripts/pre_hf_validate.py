@@ -49,11 +49,11 @@ def check_notebook() -> None:
 def check_manifest_and_docs() -> None:
     print("\n[RUN] manifest and docs")
     manifest = (ROOT / "counsel_env" / "openenv.yaml").read_text(encoding="utf-8")
-    readme = (ROOT / "counsel_env" / "README.md").read_text(encoding="utf-8")
+    readme = (ROOT / "README.md").read_text(encoding="utf-8")
     assert "name: counsel-env" in manifest
     assert "multi-agent" in manifest
     assert "Cross-Examination Arena" in readme
-    assert "We built a courtroom where an LLM learns to catch lies" in readme
+    assert "where an LLM learns to cross-examine" in readme
     assert "Reward-Hacking Audit" in readme
     assert (ROOT / "assets" / "demo" / "demo_case.md").exists()
     assert (ROOT / "assets" / "demo" / "video_script.md").exists()
