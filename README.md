@@ -38,6 +38,7 @@ Submission evidence:
 - [counsel_env/BENCHMARKS.md](counsel_env/BENCHMARKS.md)
 - [counsel_env/TRAINING_PROOF.md](counsel_env/TRAINING_PROOF.md)
 - [counsel_env/EVAL150_STATUS.md](counsel_env/EVAL150_STATUS.md)
+- [BLOG.md](BLOG.md)
 - [assets/demo/blog_draft.md](assets/demo/blog_draft.md)
 - [assets/demo/video_script.md](assets/demo/video_script.md)
 

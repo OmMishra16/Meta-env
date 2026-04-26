@@ -51,6 +51,7 @@ Judge-facing cards included in this Space:
 - [`BENCHMARKS.md`](BENCHMARKS.md): held-out baseline and reward-hacking audit.
 - [`DEMO_SCRIPT.md`](DEMO_SCRIPT.md): 90-second video script and shot list.
 - [`TRAINING_PROOF.md`](TRAINING_PROOF.md): tiny GRPO dry-run path with spend guardrails.
+- [`../BLOG.md`](../BLOG.md): final short project writeup.
 - [`assets/demo/blog_draft.md`](assets/demo/blog_draft.md): mini-blog draft ready to publish.
 - [`assets/training_curves/run4b_training_loss.png`](assets/training_curves/run4b_training_loss.png): real run4b training loss plot from HF job logs.
 - [`assets/training_curves/run4b_eval_rewards.png`](assets/training_curves/run4b_eval_rewards.png): trained-vs-baseline reward plot.
