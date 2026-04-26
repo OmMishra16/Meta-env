@@ -13,9 +13,22 @@ Start with the full Space README here:
 
 - [counsel_env/README.md](counsel_env/README.md)
 
+## File Structure
+
+```text
+.
+├── README.md                 # this submission overview
+├── LICENSE                   # BSD-3-Clause license
+├── counsel_env/              # runnable OpenEnv package and HF Space source
+├── assets/                   # plots, eval mirrors, transcripts, blog/video drafts
+├── docs/                     # submission card and engineering report
+├── scripts/                  # validation, eval, and plotting utilities
+└── pytest.ini                # local test config
+```
+
 Submission evidence:
 
-- [SUBMISSION.md](SUBMISSION.md)
+- [docs/SUBMISSION.md](docs/SUBMISSION.md)
 - [counsel_env/BENCHMARKS.md](counsel_env/BENCHMARKS.md)
 - [counsel_env/TRAINING_PROOF.md](counsel_env/TRAINING_PROOF.md)
 - [counsel_env/EVAL150_STATUS.md](counsel_env/EVAL150_STATUS.md)
@@ -23,3 +36,10 @@ Submission evidence:
 - [assets/demo/video_script.md](assets/demo/video_script.md)
 
 Key result: run4b reaches `0.864` average reward and `0.943` primary/surface rate on the expanded 150-seed evaluation, with zero invalid tool calls.
+
+Local validation:
+
+```bash
+python scripts/pre_hf_validate.py
+python -m pytest -p no:cacheprovider -q
+```

@@ -63,13 +63,14 @@ POLICIES: Dict[str, Callable[[CounselEnvironment, random.Random, int], List[str]
 
 
 def run_rollout_diagnostics(
-    output_path: str | Path = "rollout_debug.jsonl",
+    output_path: str | Path = "assets/diagnostics/rollout_debug.jsonl",
     num_episodes: int = 10,
     policy: str = "mixed",
     seed: int = 13,
 ) -> List[dict]:
     rng = random.Random(seed)
     path = Path(output_path)
+    path.parent.mkdir(parents=True, exist_ok=True)
     rows: List[dict] = []
     stages = ["easy", "medium", "hard"]
     policy_fn = POLICIES[policy]

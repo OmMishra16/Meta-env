@@ -7,7 +7,7 @@ Counsel-Env is locally validated, deployed as a public Hugging Face Space, and b
 Latest local preflight:
 
 ```text
-python pre_hf_validate.py
+python scripts/pre_hf_validate.py
 [OK] PRE-HF PREFLIGHT PASSED
 ```
 

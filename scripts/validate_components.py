@@ -1,5 +1,13 @@
 """Local validation for Counsel-Env without starting the OpenEnv server."""
 
+import sys
+from pathlib import Path
+
+
+ROOT = Path(__file__).resolve().parents[1]
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
+
 from counsel_env.models import CounselAction, CounselObservation, CounselState
 from counsel_env.server.case_generator import generate_case
 from counsel_env.server.counsel_env_environment import CounselEnvironment

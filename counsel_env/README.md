@@ -178,7 +178,7 @@ That sequence is the capability we want training to amplify.
 From the repo root:
 
 ```bash
-python pre_hf_validate.py
+python scripts/pre_hf_validate.py
 python -m pytest -p no:cacheprovider -q
 ```
 

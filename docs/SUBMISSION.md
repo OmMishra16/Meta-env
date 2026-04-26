@@ -74,6 +74,6 @@ Publish either the mini-blog or the sub-2-minute video, then paste its public UR
 ## Local Validation
 
 ```bash
-python pre_hf_validate.py
+python scripts/pre_hf_validate.py
 python -m pytest -p no:cacheprovider -q
 ```

@@ -4,6 +4,10 @@
 import os
 import subprocess
 import sys
+from pathlib import Path
+
+
+ROOT = Path(__file__).resolve().parents[1]
 
 
 def section(title: str) -> None:
@@ -12,7 +16,7 @@ def section(title: str) -> None:
 
 def run(cmd: list[str], description: str) -> bool:
     print(f"-> {description}")
-    result = subprocess.run(cmd, capture_output=True, text=True, timeout=120)
+    result = subprocess.run(cmd, cwd=ROOT, capture_output=True, text=True, timeout=120)
     if result.returncode == 0:
         print("[OK]")
         if result.stdout.strip():
@@ -28,9 +32,10 @@ def main() -> int:
     print(f"Python: {sys.version.split()[0]}")
     print(f"Platform: {sys.platform}")
     print(f"Working directory: {os.getcwd()}")
+    print(f"Repository root: {ROOT}")
 
     checks = [
-        ([sys.executable, "validate_components.py"], "component validation"),
+        ([sys.executable, "scripts/validate_components.py"], "component validation"),
         (
             [sys.executable, "-m", "pytest", "-p", "no:cacheprovider", "-q"],
             "full local test suite",

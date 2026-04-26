@@ -10,10 +10,11 @@ import sys
 import time
 from pathlib import Path
 
+ROOT = Path(__file__).resolve().parents[1]
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
+
 from counsel_env import CounselAction, CounselEnv
-
-
-ROOT = Path(__file__).resolve().parent
 
 
 def run(cmd: list[str], description: str, cwd: Path = ROOT, timeout: int = 180) -> None:
@@ -130,14 +131,14 @@ def check_server_smoke() -> None:
 
 
 def check_rollout_debug() -> None:
-    path = ROOT / "rollout_debug.jsonl"
+    path = ROOT / "assets" / "diagnostics" / "rollout_debug.jsonl"
     rows = [json.loads(line) for line in path.read_text(encoding="utf-8").splitlines() if line.strip()]
     assert len(rows) >= 10
     non_zero = sum(row["total_reward"] > 0 for row in rows)
     avg_reward = sum(row["total_reward"] for row in rows) / len(rows)
     assert non_zero >= 1
     assert avg_reward < 0.7
-    print(f"[OK] rollout_debug.jsonl has {non_zero}/{len(rows)} non-zero episodes, avg_reward={avg_reward:.3f}")
+    print(f"[OK] {path.relative_to(ROOT)} has {non_zero}/{len(rows)} non-zero episodes, avg_reward={avg_reward:.3f}")
 
 
 def check_evaluation_artifacts() -> None:
@@ -186,7 +187,7 @@ def main() -> int:
     check_manifest_and_docs()
     check_notebook()
     check_import_modes()
-    run([sys.executable, "validate_components.py"], "component validation")
+    run([sys.executable, "scripts/validate_components.py"], "component validation")
     run([sys.executable, "-m", "pytest", "-p", "no:cacheprovider", "-q"], "full pytest suite")
     run([sys.executable, "-m", "counsel_env.server.diagnostics"], "rollout diagnostics")
     check_rollout_debug()
